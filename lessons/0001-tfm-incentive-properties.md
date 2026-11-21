@@ -1,6 +1,6 @@
 ---
-topic: Research directions in transaction fee mechanism (TFM) design
-scope: "What problem a TFM solves and the main axes along which the research divides; not the internals of any one mechanism (EIP-1559 update rule, MEV auctions) and no proofs."
+topic: "Incentive properties of a transaction fee mechanism (branch 1 of maps/transaction-fee-mechanisms.md)"
+scope: "Who can game a fee mechanism and what property defends against each party; not price dynamics, MEV, or any proof."
 date: 2026-11-21
 status: unfinished
 cards: []

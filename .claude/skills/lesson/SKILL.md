@@ -14,6 +14,8 @@ and you fill in after. File formats: `LESSON-FORMAT.md` in this directory and
 ## 1. Open the session
 
 1. Read `MISSION.md` if it exists, `INDEX.md`, and `PARKED.md`.
+   If the request is a whole field or a list of directions rather than one
+   concept, say so and suggest `/map` first; a lesson then takes one branch.
 2. Agree on the session's **topic** and a one-sentence **scope** (what is in,
    what is out). If a parked question fits what they ask for, offer it.
 3. Check the prerequisites against `INDEX.md`. If one is clearly missing, say
