@@ -61,16 +61,11 @@ learner. Filing a claim in the library never upgrades its grade.
 
 ### Link types
 
-Only one direction is stored. The inverse is derived, so the two cards cannot
-disagree.
+Types: `prerequisite`, `special-case-of`, `used-in`, `related`,
+`contrasts-with`.
 
-| Stored on the card | Shown on the target card |
-|---|---|
-| `prerequisite` | `required-by` |
-| `special-case-of` | `generalizes` |
-| `used-in` | `uses` |
-| `related` | `related` |
-| `contrasts-with` | `contrasts-with` |
+Only one direction is stored, so two cards cannot disagree. To see what points
+at a card, search `library/` for `to: <id>`.
 
 A link may point at a concept with no card yet. This is allowed: such targets
 are listed in `INDEX.md` under "Frontier", the things you know exist but have
@@ -82,8 +77,10 @@ not learned.
 python3 scripts/library.py check            # validate every card
 python3 scripts/library.py index            # rebuild INDEX.md
 python3 scripts/library.py index --check    # fail if INDEX.md is stale
-python3 scripts/library.py lookup 費馬小定理  # find by name, alias, topic or body text
 ```
+
+There is no search command. To find a card, read `INDEX.md` or use the
+`/lookup` skill, which lets the agent search loosely.
 
 `check` rejects: a missing required field, an `id` that differs from the file
 name, an unknown link type, a claim without a grade, a graded claim citing an

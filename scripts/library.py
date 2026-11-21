@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Library tooling: validate concept cards, build INDEX.md, look a concept up.
+"""Library tooling: validate concept cards and build INDEX.md.
 
 Data model (see docs/library-format.md):
 
@@ -14,9 +14,11 @@ Data model (see docs/library-format.md):
   been learned.
 
 Usage:
-    library.py check  [--root DIR]          # exit 1 if any card is invalid
-    library.py index  [--root DIR] [--check]  # write INDEX.md, or verify it
-    library.py lookup [--root DIR] QUERY    # find cards by name or vague memory
+    library.py check [--root DIR]            # exit 1 if any card is invalid
+    library.py index [--root DIR] [--check]  # write INDEX.md, or verify it
+
+Finding a card is deliberately not this script's job: the agent reads
+INDEX.md and the cards directly (see .claude/skills/lookup).
 """
 from __future__ import annotations
 
@@ -35,16 +37,9 @@ import yaml
 GRADES_NEEDING_SOURCE = {"quote-verified", "source-exists"}
 GRADES = GRADES_NEEDING_SOURCE | {"model-only"}
 
-# Relation type -> label shown on the *target* card (the inverse direction).
-# Only one direction is stored; the inverse is derived, so the two sides can
-# never disagree. "related" and "contrasts-with" are symmetric.
-LINK_TYPES = {
-    "prerequisite": "required-by",
-    "special-case-of": "generalizes",
-    "used-in": "uses",
-    "related": "related",
-    "contrasts-with": "contrasts-with",
-}
+# Only one direction of a relation is stored, so two cards cannot disagree.
+# To see what points at a card, search library/ for "to: <id>".
+LINK_TYPES = {"prerequisite", "special-case-of", "used-in", "related", "contrasts-with"}
 
 ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 CLAIM_RE = re.compile(r"^- \[([a-z-]+)(?:: ([\w.-]+))?\] \S")
@@ -181,7 +176,7 @@ def _prerequisite_cycle(cards: list[Card]) -> list[str] | None:
 def check(cards: list[Card]) -> list[str]:
     """All problems in the library, as 'file: message' strings."""
     problems = [f"{c.path.name}: {p}" for c in cards for p in _check_card(c)]
-    # A name must identify one card, otherwise lookup is ambiguous.
+    # A name must identify one card, otherwise the by-name index is ambiguous.
     owners: dict[str, str] = {}
     for card in cards:
         for name in {n.casefold() for n in card.names}:
@@ -205,16 +200,6 @@ def frontier(cards: list[Card]) -> dict[str, list[str]]:
             if to not in known:
                 missing.setdefault(to, []).append(card.id)
     return missing
-
-
-def incoming(cards: list[Card], target: str) -> list[tuple[str, str]]:
-    """(inverse label, source id) for every link that points at target."""
-    return sorted(
-        (LINK_TYPES.get(kind, kind), c.id)
-        for c in cards
-        for kind, to in c.links
-        if to == target
-    )
 
 
 def build_index(cards: list[Card]) -> str:
@@ -256,49 +241,9 @@ def build_index(cards: list[Card]) -> str:
     return "\n".join(out).rstrip() + "\n"
 
 
-def lookup(cards: list[Card], query: str) -> list[tuple[int, Card]]:
-    """Rank cards against a query, best first.
-
-    3 = the query is exactly one of the card's names
-    2 = the query is part of a name
-    1 = the query matches a topic or appears in the body (vague memory:
-        "something about modulus" still finds the card)
-    """
-    q = query.casefold().strip()
-    hits = []
-    for card in cards:
-        names = [n.casefold() for n in card.names]
-        if q in names:
-            score = 3
-        elif any(q in n for n in names):
-            score = 2
-        elif any(q in t.casefold() for t in card.topics) or q in card.body.casefold():
-            score = 1
-        else:
-            continue
-        hits.append((score, card))
-    return sorted(hits, key=lambda hit: (-hit[0], hit[1].id))
-
-
-def _print_hit(cards: list[Card], score: int, card: Card, root: Path) -> None:
-    known = {c.id for c in cards}
-    print(f"{card.title}  [{card.path.relative_to(root)}]  match={score}")
-    if card.aliases:
-        print(f"  aliases: {', '.join(card.aliases)}")
-    print(f"  topics: {', '.join(card.topics)}")
-    for kind, to in card.links:
-        note = "" if to in known else "  (no card yet)"
-        print(f"  {kind} -> {to}{note}")
-    for label, src in incoming(cards, card.id):
-        print(f"  {label} <- {src}")
-    for lesson in card.meta.get("learned_in") or []:
-        print(f"  learned in: {lesson}")
-
-
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("command", choices=["check", "index", "lookup"])
-    parser.add_argument("query", nargs="?")
+    parser.add_argument("command", choices=["check", "index"])
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--check", action="store_true", help="index: verify, do not write")
     args = parser.parse_args(argv)
@@ -309,27 +254,15 @@ def main(argv: list[str] | None = None) -> int:
         print("\n".join(problems) if problems else f"{len(cards)} cards OK")
         return 1 if problems else 0
 
-    if args.command == "index":
-        target, rendered = args.root / "INDEX.md", build_index(cards)
-        if args.check:
-            current = target.read_text(encoding="utf-8") if target.exists() else ""
-            if current != rendered:
-                print("INDEX.md is out of date; run: scripts/library.py index")
-                return 1
-            return 0
-        target.write_text(rendered, encoding="utf-8")
-        print(f"wrote {target}")
+    target, rendered = args.root / "INDEX.md", build_index(cards)
+    if args.check:
+        current = target.read_text(encoding="utf-8") if target.exists() else ""
+        if current != rendered:
+            print("INDEX.md is out of date; run: scripts/library.py index")
+            return 1
         return 0
-
-    if not args.query:
-        parser.error("lookup needs a QUERY")
-    hits = lookup(cards, args.query)
-    if not hits:
-        # Stated plainly so the caller does not fill the gap from memory.
-        print(f"NOT IN LIBRARY: {args.query}")
-        return 2
-    for score, card in hits:
-        _print_hit(cards, score, card, args.root)
+    target.write_text(rendered, encoding="utf-8")
+    print(f"wrote {target}")
     return 0
 
 

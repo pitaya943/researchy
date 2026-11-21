@@ -88,31 +88,6 @@ def test_prerequisite_cycle_is_rejected(tmp_path):
     assert any("prerequisite cycle" in p for p in library.check(cards))
 
 
-def test_lookup_by_chinese_alias_is_an_exact_match(tmp_path):
-    cards = make(tmp_path, fermat_little_theorem=FERMAT, modular_arithmetic=MODULAR)
-    score, card = library.lookup(cards, "費馬小定理")[0]
-    assert (score, card.id) == (3, "fermat-little-theorem")
-
-
-def test_lookup_by_vague_memory_finds_card_through_body_text(tmp_path):
-    cards = make(tmp_path, fermat_little_theorem=FERMAT, modular_arithmetic=MODULAR)
-    ids = [card.id for _, card in library.lookup(cards, "prime modulus")]
-    assert ids == ["fermat-little-theorem"]
-
-
-def test_lookup_miss_says_not_in_library(tmp_path, capsys):
-    make(tmp_path, modular_arithmetic=MODULAR)
-    assert library.main(["lookup", "RSA", "--root", str(tmp_path)]) == 2
-    assert "NOT IN LIBRARY" in capsys.readouterr().out
-
-
-def test_incoming_links_use_inverse_labels(tmp_path):
-    cards = make(tmp_path, fermat_little_theorem=FERMAT, modular_arithmetic=MODULAR)
-    assert library.incoming(cards, "modular-arithmetic") == [
-        ("required-by", "fermat-little-theorem")
-    ]
-
-
 def test_index_lists_topics_names_and_frontier_and_detects_staleness(tmp_path):
     make(tmp_path, fermat_little_theorem=FERMAT, modular_arithmetic=MODULAR)
     root = ["--root", str(tmp_path)]
