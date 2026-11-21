@@ -8,6 +8,7 @@ It separates three things that serve different purposes:
 | Concept card | `library/<id>.md` | The unit you come back to. One concept per file. |
 | Lesson | `lessons/NNNN-<name>.md` | One teaching session. Creates or updates cards. |
 | Learning record | `learning-records/` | Your recall-practice history. |
+| Parked questions | `PARKED.md` | Tangents set aside during a lesson, to learn later. |
 
 `INDEX.md` is generated from the cards by `scripts/library.py index`.
 Do not edit it by hand.
