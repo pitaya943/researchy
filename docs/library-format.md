@@ -56,8 +56,8 @@ check was actually performed.
 | `source-exists: <key>` | The source resolves; its content was not compared. | yes |
 | `model-only` | Nothing was checked. The model said so. | no |
 
-No grade means "the quote supports the claim". That judgement stays with the
-learner. Filing a claim in the library never upgrades its grade.
+None of these grades says that the source supports the claim. That judgement
+stays with the learner. Filing a claim in the library never upgrades its grade.
 
 ### Link types
 
