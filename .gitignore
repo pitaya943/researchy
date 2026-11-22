@@ -1,0 +1,4 @@
+__pycache__/
+.pytest_cache/
+# Downloaded papers: readable, but usually not redistributable.
+papers/

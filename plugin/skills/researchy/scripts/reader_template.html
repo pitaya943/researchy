@@ -1,0 +1,520 @@
+<title>__TITLE__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: a reading column with the guide as a left rail; explanations open in a right drawer (bottom sheet on phones). */
+:root {
+  --bg: #f7f8fa; --surface: #ffffff; --ink: #1b2330; --muted: #5d6878; --rule: #dde2e9;
+  --accent: #1f5f8b; --accent-ink: #ffffff; --accent-soft: #e4eef6;
+  --mark: #ffe9a8; --mark-ink: #4a3500; --warn: #8a4b00; --warn-soft: #fdf1dc;
+  --font-read: "Source Serif 4", "Noto Serif TC", "Songti TC", Georgia, serif;
+  --font-ui: "IBM Plex Sans", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --rail: 19rem; --drawer: 24rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161c; --surface: #1a2029; --ink: #e3e8ef; --muted: #98a4b3; --rule: #2c3542;
+    --accent: #7db8de; --accent-ink: #0d1a24; --accent-soft: #1d2f3d;
+    --mark: #5b4a12; --mark-ink: #ffeebb; --warn: #f0b867; --warn-soft: #33290f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161c; --surface: #1a2029; --ink: #e3e8ef; --muted: #98a4b3; --rule: #2c3542;
+  --accent: #7db8de; --accent-ink: #0d1a24; --accent-soft: #1d2f3d;
+  --mark: #5b4a12; --mark-ink: #ffeebb; --warn: #f0b867; --warn-soft: #33290f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.shell { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); gap: 2rem; max-width: 76rem; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 1.25rem 6rem; }
+
+/* ---------- guide rail ---------- */
+.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 1rem); align-self: start; max-height: calc(100vh - 2rem);
+  overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; padding-right: .25rem; }
+.rail h1 { font-family: var(--font-read); font-size: 1.2rem; line-height: 1.25; margin: 0; text-wrap: balance; }
+.byline { color: var(--muted); font-size: .85rem; margin: .25rem 0 0; }
+.eyebrow { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 .4rem; }
+.tabs { display: flex; gap: .25rem; border-bottom: 1px solid var(--rule); }
+.tabs button { background: none; border: 0; border-bottom: 2px solid transparent; padding: .4rem .45rem; color: var(--muted); font-weight: 500; font-size: .86rem; white-space: nowrap; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.units, .prereqs, .marks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .15rem; }
+.units a { display: grid; grid-template-columns: 1.6rem 1fr; gap: .4rem; padding: .35rem .4rem; border-radius: 6px; color: inherit; text-decoration: none; }
+.units a:hover, .units a.current { background: var(--accent-soft); }
+.units .n { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); padding-top: .1rem; }
+.units .prov { color: var(--muted); }
+.units .done .n::after { content: " \2713"; color: var(--accent); }
+.prereqs li { padding: .3rem .4rem; font-size: .88rem; }
+.prereqs .first { font-weight: 600; }
+.prereqs small { display: block; color: var(--muted); font-weight: 400; }
+.marks li button { width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: .5rem .6rem; }
+.marks .q { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-family: var(--font-read); }
+.marks small, .note { color: var(--muted); font-size: .8rem; }
+.note { margin: 0; }
+.rail-toggle { display: none; }
+
+/* ---------- paper ---------- */
+.paper { min-width: 0; font-family: var(--font-read); font-size: 1.06rem; line-height: 1.62; max-width: 44rem; }
+.paper a { color: var(--accent); }
+.paper a, .paper .ltx_bibblock { overflow-wrap: anywhere; }
+.paper .ltx_title_document { font-size: 1.9rem; line-height: 1.2; margin: 0 0 .5rem; text-wrap: balance; }
+.paper h2.ltx_title { font-size: 1.4rem; margin: 2.6rem 0 .6rem; text-wrap: balance; }
+.paper h3.ltx_title { font-size: 1.15rem; margin: 2rem 0 .5rem; }
+.paper h4.ltx_title, .paper h5.ltx_title, .paper h6.ltx_title { font-size: 1rem; margin: 1.4rem 0 .4rem; }
+.paper .ltx_tag { margin-right: .5em; }
+.paper .ltx_para { margin: 0 0 .9rem; }
+.paper .ltx_p { margin: 0; }
+.paper .ltx_authors, .paper .ltx_dates { color: var(--muted); font-family: var(--font-ui); font-size: .95rem; }
+.paper .ltx_abstract { border-block: 1px solid var(--rule); padding-block: .8rem; margin-block: 1.2rem; }
+.paper .ltx_title_abstract { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 .4rem; }
+.paper .ltx_theorem { border-left: 3px solid var(--rule); padding: .1rem 0 .1rem 1rem; margin: 1.2rem 0; }
+.paper .ltx_theorem .ltx_title { font-size: 1rem; margin: 0 0 .3rem; font-weight: 600; }
+.paper .ltx_proof .ltx_title { font-size: 1rem; font-style: italic; font-weight: 400; margin: 0 0 .3rem; }
+.paper table.ltx_equation, .paper table.ltx_equationgroup { display: block; overflow-x: auto; width: 100%; margin: .8rem 0; }
+.paper table.ltx_equation tbody, .paper table.ltx_equationgroup tbody { display: table; width: 100%; }
+.paper .ltx_eqn_cell { text-align: center; padding: .2rem; }
+.paper .ltx_eqn_eqno { text-align: right; width: 3rem; color: var(--muted); font-family: var(--font-ui); font-size: .9rem; }
+.paper .ltx_eqn_center_padleft, .paper .ltx_eqn_center_padright { width: 0; }
+.paper .ltx_table, .paper .ltx_figure { overflow-x: auto; margin: 1.2rem 0; }
+.paper .ltx_tabular td, .paper .ltx_tabular th { padding: .25rem .6rem; border-bottom: 1px solid var(--rule); text-align: left; }
+.paper .ltx_caption { color: var(--muted); font-family: var(--font-ui); font-size: .9rem; }
+.paper ul.ltx_itemize, .paper ol.ltx_enumerate { padding-left: 1.4rem; }
+.paper .ltx_enumerate, .paper .ltx_itemize { list-style: none; }
+.paper .ltx_item { position: relative; margin-bottom: .3rem; }
+.paper .ltx_item > .ltx_tag { position: absolute; left: -1.5rem; }
+.paper .ltx_bibliography { font-size: .92rem; }
+.paper .ltx_biblist { list-style: none; padding: 0; }
+.paper .ltx_bibitem { margin-bottom: .6rem; }
+.paper .ltx_bibblock { display: inline; }
+.paper .ltx_font_bold { font-weight: 600; } .paper .ltx_font_italic { font-style: italic; }
+.paper .ltx_ERROR, .paper .ltx_pagination { display: none; }
+.paper math { font-size: 1.04em; }
+.paper .ltx_note { position: relative; }
+.paper .ltx_note_mark { color: var(--accent); cursor: pointer; font-family: var(--font-ui); font-size: .7em; padding: 0 .1em; }
+.paper .ltx_note_outer { display: none; }
+.paper .ltx_note.open > .ltx_note_outer { display: block; margin: .5rem 0; padding: .6rem .8rem; background: var(--surface); border: 1px solid var(--rule);
+  border-radius: 6px; font-size: .92rem; line-height: 1.5; }
+.paper .ltx_note.open .ltx_note_content > .ltx_note_mark, .paper .ltx_note_type { display: none; }
+mark.saved { background: var(--mark); color: var(--mark-ink); border-radius: 2px; }
+.flash { animation: flash 1.6s ease-out; }
+@keyframes flash { from { background: var(--mark); } to { background: transparent; } }
+
+/* ---------- unit card, inserted before each unit ---------- */
+.unit { font-family: var(--font-ui); font-size: .93rem; line-height: 1.5; background: var(--surface); border: 1px solid var(--rule);
+  border-radius: 8px; padding: .85rem 1rem; margin: 2.2rem 0 1rem; display: flex; flex-direction: column; gap: .5rem; }
+.unit-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; }
+.unit-head b { font-size: 1rem; }
+.chip { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; padding: .1rem .4rem; border-radius: 4px;
+  background: var(--accent-soft); color: var(--accent); }
+.chip.warn { background: var(--warn-soft); color: var(--warn); }
+.unit .needs { color: var(--muted); margin: 0; }
+.unit .ask { margin: 0; font-weight: 500; }
+.unit textarea { width: 100%; min-height: 3.4rem; resize: vertical; font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; padding: .5rem .6rem; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
+.btn { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: .4rem .8rem; font-weight: 500; }
+.btn.ghost { background: none; color: var(--accent); border: 1px solid var(--rule); }
+.btn:disabled { opacity: .5; cursor: default; }
+
+/* ---------- selection button and drawer ---------- */
+#ask-btn { position: absolute; z-index: 30; background: var(--ink); color: var(--bg); border: 0; border-radius: 999px; padding: .35rem .8rem;
+  font-size: .85rem; font-weight: 500; box-shadow: 0 2px 10px rgb(0 0 0 / .25); }
+.drawer { position: fixed; z-index: 40; top: 0; right: 0; bottom: 0; width: min(var(--drawer), 100vw); background: var(--surface); border-left: 1px solid var(--rule);
+  display: flex; flex-direction: column; box-shadow: -8px 0 30px rgb(0 0 0 / .12);
+  padding: calc(env(safe-area-inset-top, 0px) + .9rem) max(16px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + .9rem) 1rem; gap: .7rem; }
+.drawer-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.drawer-head h2 { font-size: 1rem; margin: 0; }
+.icon-btn { background: none; border: 0; font-size: 1.3rem; line-height: 1; padding: .2rem .45rem; border-radius: 6px; color: var(--muted); }
+.quote { font-family: var(--font-read); border-left: 3px solid var(--mark); padding-left: .7rem; margin: 0; max-height: 7.5rem; overflow-y: auto; color: var(--muted); }
+.thread { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: .8rem; }
+.turn-q { align-self: flex-end; max-width: 90%; background: var(--accent-soft); border-radius: 8px; padding: .4rem .7rem; }
+.turn-a { white-space: pre-wrap; overflow-wrap: anywhere; }
+.turn-a.pending { color: var(--muted); }
+.followup { display: flex; gap: .5rem; }
+.followup input { flex: 1; min-width: 0; font: inherit; color: inherit; background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; padding: .45rem .6rem; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.seg button { background: none; border: 0; padding: .2rem .55rem; font-size: .8rem; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
+
+@media (max-width: 58rem) {
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .rail { position: static; max-height: none; overflow: visible; }
+  .rail-toggle { display: inline-flex; align-self: flex-start; }
+  .rail.collapsed .rail-body { display: none; }
+  .drawer { top: auto; left: 0; width: 100%; height: min(70vh, 34rem); border-left: 0; border-top: 1px solid var(--rule); border-radius: 12px 12px 0 0;
+    box-shadow: 0 -8px 30px rgb(0 0 0 / .18); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-top: .9rem; }
+  .paper { font-size: 1.02rem; }
+}
+</style>
+
+<div class="shell">
+  <aside class="rail collapsed" id="rail">
+    <header>
+      <p class="eyebrow">閱讀指南</p>
+      <h1 id="paper-title"></h1>
+      <p class="byline" id="paper-byline"></p>
+    </header>
+    <button class="btn ghost rail-toggle" id="rail-toggle" type="button" aria-expanded="false">顯示指南</button>
+    <div class="rail-body">
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" id="tab-units" aria-selected="true" aria-controls="pane-units">單元</button>
+        <button type="button" role="tab" id="tab-prereqs" aria-selected="false" aria-controls="pane-prereqs">第 0 章</button>
+        <button type="button" role="tab" id="tab-marks" aria-selected="false" aria-controls="pane-marks">標記</button>
+      </div>
+      <div id="pane-units" role="tabpanel" aria-labelledby="tab-units">
+        <ol class="units" id="units"></ol>
+        <p class="note" id="prov-note" hidden>灰色單元只根據標題,agent 尚未讀過。</p>
+      </div>
+      <div id="pane-prereqs" role="tabpanel" aria-labelledby="tab-prereqs" hidden>
+        <p class="note">論文用到但沒解釋的概念。</p>
+        <ul class="prereqs" id="prereqs"></ul>
+      </div>
+      <div id="pane-marks" role="tabpanel" aria-labelledby="tab-marks" hidden>
+        <p class="note" id="marks-note">反白論文中任何一段即可提問。</p>
+        <ul class="marks" id="marks"></ul>
+      </div>
+    </div>
+  </aside>
+
+  <main class="paper" id="paper">
+__ARTICLE__
+  </main>
+</div>
+
+<button id="ask-btn" type="button" hidden>說明</button>
+
+<aside class="drawer" id="drawer" hidden aria-label="說明">
+  <div class="drawer-head">
+    <h2>說明</h2>
+    <button class="icon-btn" id="drawer-close" type="button" aria-label="關閉">&times;</button>
+  </div>
+  <div class="row">
+    <span class="chip warn" title="模型當場生成,未對照任何來源查證。">model-only · 未查證</span>
+    <span class="seg" role="group" aria-label="深度">
+      <button type="button" id="tier-quick" aria-pressed="true">快速</button>
+      <button type="button" id="tier-default" aria-pressed="false">深入</button>
+    </span>
+  </div>
+  <blockquote class="quote" id="drawer-quote"></blockquote>
+  <div class="thread" id="thread"></div>
+  <p class="note" id="drawer-note" hidden></p>
+  <form class="followup" id="followup">
+    <input id="followup-input" type="text" autocomplete="off" placeholder="追問" aria-label="追問">
+    <button class="btn" id="followup-send" type="submit">送出</button>
+    <button class="btn ghost" id="stop" type="button" hidden>停止</button>
+  </form>
+</aside>
+
+<script id="guide-data" type="application/json">__GUIDE_JSON__</script>
+<script>
+(() => {
+  "use strict";
+  const guide = JSON.parse(document.getElementById("guide-data").textContent);
+  const $ = (id) => document.getElementById(id);
+  const paper = $("paper");
+  const el = (tag, props = {}, ...kids) => {
+    const node = Object.assign(document.createElement(tag), props);
+    node.append(...kids);
+    return node;
+  };
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } },
+  };
+
+  // ---------- header, tabs, rail ----------
+  $("paper-title").textContent = guide.title;
+  $("paper-byline").textContent = guide.authors.join(", ") + " · " + guide.paper;
+  const tabs = ["units", "prereqs", "marks"];
+  for (const name of tabs) {
+    $("tab-" + name).addEventListener("click", () => {
+      for (const t of tabs) {
+        $("tab-" + t).setAttribute("aria-selected", String(t === name));
+        $("pane-" + t).hidden = t !== name;
+      }
+    });
+  }
+  $("rail-toggle").addEventListener("click", () => {
+    const collapsed = $("rail").classList.toggle("collapsed");
+    $("rail-toggle").setAttribute("aria-expanded", String(!collapsed));
+    $("rail-toggle").textContent = collapsed ? "顯示指南" : "隱藏指南";
+  });
+
+  for (const p of guide.prereqs) {
+    $("prereqs").append(el("li", { className: p.first ? "first" : "" },
+      p.concept, el("small", {}, (p.first ? "先學" : "可稍後") + " · 首次用於" + p.neededFor)));
+  }
+
+  // ---------- units: rail entries and a card before each unit in the paper ----------
+  const unitEls = [];   // [{unit, anchor}] in document order, for locating a passage's unit
+  const guessBoxes = new Map();
+  for (const u of guide.units) {
+    const anchor = u.anchor ? document.getElementById(u.anchor) : null;
+    const link = el("a", { href: anchor ? "#unit-" + u.n : "#" },
+      el("span", { className: "n" }, String(u.n)), el("span", { className: u.provisional ? "prov" : "" }, u.title));
+    const item = el("li", { id: "rail-unit-" + u.n }, link);
+    $("units").append(item);
+    if (u.provisional) $("prov-note").hidden = false;
+    if (!anchor) continue;
+
+    const card = el("section", { className: "unit", id: "unit-" + u.n });
+    card.append(el("div", { className: "unit-head" },
+      el("span", { className: "chip" }, "單元 " + u.n), el("b", {}, u.title),
+      u.provisional ? el("span", { className: "chip warn" }, "暫定") : ""));
+    if (u.needs) card.append(el("p", { className: "needs" }, "需要:" + u.needs));
+    if (u.question) {
+      const box = el("textarea", { id: "guess-" + u.n, placeholder: "讀之前先寫下你的答案" });
+      const status = el("span", { className: "note" });
+      const save = el("button", { className: "btn ghost", type: "button" }, "儲存");
+      save.addEventListener("click", () => saveGuess(u.n, box, save, status));
+      card.append(el("p", { className: "ask" }, "讀之前:" + u.question), box, el("div", { className: "row" }, save, status));
+      guessBoxes.set(String(u.n), { box, status });
+    }
+    anchor.before(card);
+    unitEls.push({ unit: u, anchor: card });
+  }
+  // Cards were inserted in reading order; unit lookup needs them in page order.
+  unitEls.sort((a, b) => (a.anchor.compareDocumentPosition(b.anchor) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+  const unitOf = (node) => {
+    let found = null;
+    for (const entry of unitEls) {
+      if (entry.anchor.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_FOLLOWING) found = entry.unit;
+    }
+    return found;
+  };
+
+  // Footnotes: the paper inlines each note's text; show it only when its mark is clicked.
+  for (const note of paper.querySelectorAll(".ltx_note")) {
+    const mark = note.querySelector(":scope > .ltx_note_mark");
+    if (!mark) continue;
+    mark.tabIndex = 0;
+    mark.setAttribute("role", "button");
+    const toggle = () => note.classList.toggle("open");
+    mark.addEventListener("click", toggle);
+    mark.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+  }
+
+  // Plain text of a node or range, with each formula as its LaTeX source and footnotes left out.
+  const plain = (fragment) => {
+    const copy = fragment.cloneNode ? fragment.cloneNode(true) : fragment;
+    copy.querySelectorAll(".ltx_note_outer, .unit").forEach((n) => n.remove());
+    copy.querySelectorAll("math").forEach((m) => m.replaceWith("$" + (m.getAttribute("alttext") || m.textContent) + "$"));
+    return copy.textContent.replace(/\s+/g, " ").trim();
+  };
+
+  // ---------- capabilities (each may be absent; the page reads fine without them) ----------
+  let sample = null, db = null;
+  const marks = new Map();   // id -> saved mark
+  let current = null;        // the open thread: {id?, quote, context, paraId, unit, turns: [{q, a}]}
+  let controller = null;
+  let tier = store.get("tier") === "default" ? "default" : "quick";
+
+  const setTier = (t) => {
+    tier = t; store.set("tier", t);
+    $("tier-quick").setAttribute("aria-pressed", String(t === "quick"));
+    $("tier-default").setAttribute("aria-pressed", String(t === "default"));
+  };
+  setTier(tier);
+  $("tier-quick").addEventListener("click", () => setTier("quick"));
+  $("tier-default").addEventListener("click", () => setTier("default"));
+
+  const errorCopy = (code) => ({
+    not_granted: "此頁面未獲准向 Claude 提問。",
+    sampling_disabled: "此帳號無法使用這項功能。",
+    rate_limited: "請求太頻繁,請稍後再試。",
+    session_expired: "請重新登入。",
+    refused: "無法回答這段,請換一段反白。",
+    prompt_too_large: "反白太長,請選短一點。",
+  }[code] || "回答中斷,請再問一次。");
+
+  const RULES = [
+    "You are helping a computer science master's student read a research paper. They are fluent in algorithms, systems and",
+    "programming, and new to economics, finance and mechanism design, so give the intuition before any formula in those areas.",
+    "They selected a passage and want it explained. Rules:",
+    "1. Explain what the passage says and why it matters at this point in the paper. Use the paper's own notation.",
+    "2. If it relies on a term defined elsewhere, name the term and say what it means in one sentence.",
+    "3. Answer in Traditional Chinese (繁體中文) only, in about 150 characters to 250 characters. Keep technical terms in English the first time",
+    "   they appear, with a short Chinese gloss. Plain text, no Markdown. Write formulas inline in LaTeX.",
+    "4. You see only the excerpt below, not the whole paper. Do not invent what other sections say, and do not cite papers.",
+    "   If the excerpt is not enough to be sure, say what you are unsure about.",
+  ].join("\n");
+
+  const contextTurn = (t) => RULES + "\n\nPaper: " + guide.title + " (" + guide.authors.join(", ") + ")"
+    + (t.unit ? "\nGuide unit: " + t.unit.title : "")
+    + "\nSection: " + t.section + "\n\nSurrounding text:\n" + t.context + "\n\nSelected passage:\n" + t.quote;
+
+  const renderThread = () => {
+    $("drawer-quote").textContent = current.quote;
+    $("thread").replaceChildren();
+    for (const turn of current.turns) {
+      if (turn.q) $("thread").append(el("div", { className: "turn-q" }, turn.q));
+      $("thread").append(el("div", { className: "turn-a" }, turn.a));
+    }
+  };
+
+  const busy = (on) => {
+    $("stop").hidden = !on; $("followup-send").hidden = on; $("followup-input").disabled = on;
+  };
+
+  const ask = async (question) => {
+    if (!sample || !current) return;
+    $("drawer-note").hidden = true;
+    const turns = [{ role: "user", content: contextTurn(current) }];
+    for (const t of current.turns) {
+      if (t.q) turns.push({ role: "user", content: t.q });
+      turns.push({ role: "assistant", content: t.a });
+    }
+    if (question) turns.push({ role: "user", content: question });
+    if (question) $("thread").append(el("div", { className: "turn-q" }, question));
+    const bubble = el("div", { className: "turn-a pending" }, "思考中…");
+    $("thread").append(bubble);
+    bubble.scrollIntoView({ block: "nearest" });
+    controller = new AbortController();
+    busy(true);
+    const options = { modelTier: tier, signal: controller.signal,
+      onText: ({ text }) => { bubble.classList.remove("pending"); bubble.textContent = text; } };
+    if (question) options.cache = false;   // a follow-up must always be asked afresh
+    try {
+      const { text, truncated } = await sample(turns, options);
+      bubble.classList.remove("pending");
+      bubble.textContent = text;
+      current.turns.push({ q: question || "", a: text });
+      if (truncated) { $("drawer-note").textContent = "回答被截斷,請反白短一點的段落。"; $("drawer-note").hidden = false; }
+      await saveMark();
+    } catch (e) {
+      if (e && e.text) { bubble.classList.remove("pending"); bubble.textContent = e.text; } else bubble.remove();
+      if (!e || e.code !== "cancelled") { $("drawer-note").textContent = errorCopy(e && e.code); $("drawer-note").hidden = false; }
+      if (e && (e.code === "not_granted" || e.code === "sampling_disabled")) { sample = null; $("followup").hidden = true; }
+    } finally {
+      busy(false);
+      controller = null;
+    }
+  };
+
+  const openThread = (thread, fresh) => {
+    if (controller) controller.abort();
+    current = thread;
+    renderThread();
+    $("drawer").hidden = false;
+    $("followup").hidden = !sample;
+    $("drawer-note").hidden = true;
+    if (fresh) ask("");
+  };
+  $("drawer-close").addEventListener("click", () => { if (controller) controller.abort(); $("drawer").hidden = true; });
+  $("stop").addEventListener("click", () => controller && controller.abort());
+  $("followup").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const q = $("followup-input").value.trim();
+    if (!q || controller) return;
+    $("followup-input").value = "";
+    ask(q);
+  });
+
+  // ---------- selection -> "Explain" button ----------
+  const askBtn = $("ask-btn");
+  let pendingRange = null;
+  const placeButton = () => {
+    const sel = document.getSelection();
+    if (!sample || !sel || sel.isCollapsed || !sel.rangeCount) { askBtn.hidden = true; return; }
+    const range = sel.getRangeAt(0);
+    const host = range.commonAncestorContainer.nodeType === 1 ? range.commonAncestorContainer : range.commonAncestorContainer.parentElement;
+    if (!host || !paper.contains(host) || host.closest(".unit") || plain(range.cloneContents()).length < 2) { askBtn.hidden = true; return; }
+    pendingRange = range.cloneRange();
+    const rect = range.getBoundingClientRect();
+    askBtn.hidden = false;
+    const left = Math.min(Math.max(8, rect.left + rect.width / 2 - askBtn.offsetWidth / 2), document.documentElement.clientWidth - askBtn.offsetWidth - 8);
+    askBtn.style.left = left + window.scrollX + "px";
+    askBtn.style.top = rect.bottom + window.scrollY + 8 + "px";
+  };
+  let selTimer = 0;
+  document.addEventListener("selectionchange", () => { clearTimeout(selTimer); selTimer = setTimeout(placeButton, 250); });
+  askBtn.addEventListener("mousedown", (e) => e.preventDefault());   // keep the selection while clicking
+  askBtn.addEventListener("click", () => {
+    if (!pendingRange) return;
+    const start = pendingRange.startContainer.nodeType === 1 ? pendingRange.startContainer : pendingRange.startContainer.parentElement;
+    const block = start.closest(".ltx_theorem, .ltx_para, .ltx_item, .ltx_abstract, section") || paper;
+    const section = start.closest("section");
+    const heading = section && section.querySelector(":scope > .ltx_title");
+    askBtn.hidden = true;
+    openThread({
+      quote: plain(pendingRange.cloneContents()).slice(0, 1500),
+      context: plain(block).slice(0, 3000),
+      section: heading ? plain(heading) : "",
+      paraId: (start.closest("[id]") || {}).id || "",
+      unit: unitOf(start),
+      turns: [],
+    }, true);
+    document.getSelection().removeAllRanges();
+  });
+
+  // ---------- saved marks (db) ----------
+  const renderMarks = () => {
+    const list = [...marks.values()].sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+    $("marks").replaceChildren(...list.map((m) => {
+      const open = el("button", { type: "button" }, el("span", { className: "q" }, m.quote),
+        el("small", {}, (m.unitN ? "單元 " + m.unitN + " · " : "") + m.turns.length + " 則回答"));
+      open.addEventListener("click", () => {
+        const target = m.paraId && document.getElementById(m.paraId);
+        if (target) { target.scrollIntoView({ block: "center" }); target.classList.remove("flash"); void target.offsetWidth; target.classList.add("flash"); }
+        openThread({ id: m.id, quote: m.quote, context: m.context || m.quote, section: m.section || "", paraId: m.paraId,
+          unit: guide.units.find((u) => u.n === m.unitN) || null, turns: m.turns.map((t) => ({ ...t })) }, false);
+      });
+      return el("li", {}, open);
+    }));
+    $("marks-note").textContent = list.length ? "你目前問過的段落。" : "反白論文中任何一段即可提問。";
+    $("tab-marks").textContent = "標記" + (list.length ? " (" + list.length + ")" : "");
+  };
+
+  let saving = Promise.resolve();
+  const saveMark = () => {
+    if (!db || !current) return Promise.resolve();
+    const thread = current;
+    saving = saving.then(async () => {   // one write at a time
+      const ref = thread.id ? db.collection("marks").doc(thread.id) : db.collection("marks").doc();
+      thread.id = ref.id;
+      await ref.set({ quote: thread.quote, context: thread.context, section: thread.section, paraId: thread.paraId,
+        unitN: thread.unit ? thread.unit.n : null, turns: thread.turns, createdAt: thread.createdAt || (thread.createdAt = new Date().toISOString()),
+        updatedAt: new Date().toISOString() });
+    }).catch(() => { $("drawer-note").textContent = "無法儲存這則標記。"; $("drawer-note").hidden = false; });
+    return saving;
+  };
+
+  const saveGuess = async (n, box, button, status) => {
+    if (!db) { status.textContent = "此檢視無法儲存。"; return; }
+    button.disabled = true;
+    try {
+      await db.collection("guesses").doc("unit-" + n).set({ unitN: n, text: box.value, updatedAt: new Date().toISOString() });
+      status.textContent = "已儲存";
+      $("rail-unit-" + n).classList.add("done");
+    } catch { status.textContent = "無法儲存。"; }
+    button.disabled = false;
+  };
+
+  const start = async () => {
+    if (!window.claude || !window.claude.use) { $("marks-note").textContent = "請在 Claude 中開啟此頁以提問。"; return; }
+    [sample, db] = await Promise.all([window.claude.use("sample"), window.claude.use("db")]);
+    if (!sample) $("marks-note").textContent = "此檢視無法提問。";
+    if (!db) return;
+    const slow = setTimeout(() => { if (!marks.size) $("marks-note").textContent = "暫時讀不到已存的標記。"; }, 10000);
+    db.collection("marks").onSnapshot((snap) => {
+      if (!snap.metadata.fromCache) clearTimeout(slow);
+      marks.clear();
+      for (const d of snap.docs) { const body = d.data(); if (body && Array.isArray(body.turns)) marks.set(d.id, { id: d.id, ...body }); }
+      renderMarks();
+    }, () => { clearTimeout(slow); $("marks-note").textContent = "無法讀取已存的標記。"; });
+    db.collection("guesses").onSnapshot((snap) => {
+      for (const d of snap.docs) {
+        const body = d.data(); const entry = body && guessBoxes.get(String(body.unitN));
+        if (!entry) continue;
+        if (document.activeElement !== entry.box && !entry.box.value) entry.box.value = String(body.text || "");
+        const row = $("rail-unit-" + body.unitN); if (row) row.classList.add("done");
+      }
+    }, () => {});
+  };
+  start();
+})();
+</script>
