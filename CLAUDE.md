@@ -39,21 +39,26 @@ Where a skill's own text shows one of these in English, write the Chinese form.
 
 ## Finding and checking papers
 
-Finding a paper, confirming it exists, and reading it are three jobs, and no
-single source does all three.
+Finding a paper, confirming it exists, following its citations and reading it
+are separate jobs, and no single source does all of them. Use the connectors
+when the session has them; say so plainly when it does not.
 
 | Job | Use | Notes |
 |---|---|---|
-| Find papers on a question | The Consensus connector (`mcp__Consensus__search`) when the session has it | Semantic search over peer-reviewed work, including conference and journal papers that are not on arXiv. Ranked by relevance, not date: pass `year_min` when checking whether a gap is still open. Each call counts against the learner's plan, so make one broad search, not many narrow ones. |
-| Find the newest work | `scripts/arxiv.py` and the arXiv API | Preprints appear here months before publication. Always search here as well when the question is "has someone done this in the last year". |
-| Read the full text | `scripts/arxiv.py get` | Only for papers on arXiv with an HTML version. |
+| Find papers on a question | Consensus (`mcp__Consensus__search`), or OpenAlex (`mcp__OpenAlex__search_works`, `mode: "semantic"` for a sentence, keyword mode for Boolean queries) | Both cover published conference and journal papers that are not on arXiv. Consensus counts each call against the learner's plan: make one broad search, not many narrow ones. OpenAlex can sort by `publication_date`. |
+| Confirm a reference exists | OpenAlex `resolve_references` (up to 25 at once) | Give it the citations as written. `exact` or `likely` means the work exists; `none` means it may be missing from the index, garbled or invented, so report it as unconfirmed, never as fake. This is the first step for any bibliography. |
+| Find what came after a paper | OpenAlex `list_citations` with `direction: "citing"` and `sort: "publication_date"` | The most direct test of "is the gap still open": list the newest works citing the paper that defines the problem. |
+| Find the newest work | `scripts/arxiv.py` and the arXiv API | Preprints appear here months before publication and before any index. Always search here as well. |
+| Read the full text | `scripts/arxiv.py get`; OpenAlex `get_work` gives the open-access link and the arXiv id when there is one | Only papers on arXiv with an HTML version can be read in full. |
 
-Grades: a Consensus record or an arXiv abstract makes a statement
-`source-exists`, and say that only the abstract was read. `quote-verified`
-needs the sentence found in the full text. Google Scholar cannot be
-reached from this environment (tested 2026-11-22: refused by the network
-allowlist), and it offers no official API for automated use; do not claim to
-have searched it.
+Grades: an index record or an abstract (Consensus, OpenAlex, arXiv) makes a
+statement `source-exists`; say that only the abstract was read.
+`quote-verified` needs the sentence found in the full text.
+
+Not usable from this environment, tested 2026-11-22; do not claim to have
+searched them: **Google Scholar** (refused by the network allowlist, and it has
+no official API), **DBLP** (returns a bot-check page to automated requests),
+**Semantic Scholar** (reachable, but answers 429 without an API key).
 
 When you report Consensus results to the learner, cite them with the numbered
 links the tool returned, and repeat any notice the tool asks you to repeat.

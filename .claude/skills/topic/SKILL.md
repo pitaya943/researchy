@@ -65,9 +65,10 @@ learner can see what would settle it.
 - **You cannot judge what the research community will value.** Novelty and
   "is this enough for a thesis" are estimates; say so, and point out when a
   question needs the learner's real advisor.
-- **"The gap is still open" needs evidence.** Search for work from the last
-  twelve months in both Consensus and arXiv, and say what you searched and
-  what you opened. If you could
+- **"The gap is still open" needs evidence.** Do three things and say what
+  each returned: list the newest works citing the paper that defines the
+  problem; search published work from the last twelve months; search arXiv.
+  `CLAUDE.md` says which tool does each. If you could
   not check, the criterion is "cannot be judged", not "met".
 - **Do not re-argue a verdict.** Once the learner keeps or drops a candidate
   with a reason, do not raise the same objection again unless a new fact

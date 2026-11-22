@@ -38,11 +38,14 @@ During topic search, use `topics/checks/` instead.
    difference; do not round it away.
 3. Rerun with other seeds if only one was used.
 
-**A citation** ("paper X shows Y")
-1. Open the paper (`scripts/arxiv.py get`). If it is not on arXiv, find its
-   record through Consensus; then only the abstract can be checked, and the
-   grade cannot go above `source-exists`.
-2. Find the passage. If it supports the statement, quote the sentence and its
+**A citation** ("paper X shows Y"), or a whole reference list
+1. Confirm the work exists: pass the reference as written to OpenAlex
+   `resolve_references` (a list goes in one call). Report every `uncertain`
+   or `none` as unconfirmed, with what the tool said.
+2. Open the paper (`scripts/arxiv.py get`; `get_work` gives the arXiv id if
+   there is one). If it has no readable full text, only the abstract can be
+   checked, and the grade cannot go above `source-exists`.
+3. Find the passage. If it supports the statement, quote the sentence and its
    location, and the grade becomes `quote-verified`. If the paper exists but
    you cannot find support, the grade stays `source-exists` and you say that
    the paper does not appear to say this.
