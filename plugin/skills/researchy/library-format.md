@@ -16,7 +16,7 @@ Do not edit it by hand.
 ## Why the library is flat
 
 A concept usually belongs to several topics. A Merkle tree is a data
-structure, a cryptographic construction and a blockchain component. A folder
+structure, a cryptographic construction and a part of many distributed systems. A folder
 tree can file it under only one. So cards sit in one flat directory, each card
 lists its own `topics`, and the by-topic view is derived.
 
@@ -75,12 +75,12 @@ not learned.
 ## Paper cards
 
 A paper read with `/researchy-read` gets a card too, in the same directory and format,
-with `kind: paper` and an id such as `roughgarden-2021-tfm`. It adds two
+with `kind: paper` and an id such as `malkov-2016-hnsw`. It adds two
 sections that later feed gap-finding:
 
 ```markdown
 ## 假設
-- [source-exists: self] Miners are myopic: they maximise revenue from the current block only. (section 3.2)
+- [source-exists: self] Queries and indexed points are drawn from the same distribution. (section 4)
 
 ## 未解問題(作者自述)
 - [source-exists: self] ... (section 6)

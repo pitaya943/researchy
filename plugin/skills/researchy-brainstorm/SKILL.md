@@ -60,11 +60,12 @@ Use whichever of these moves fits; do not run them as a checklist.
 4. **Flip one assumption** that everyone in the field makes.
 5. **Ask what the nearest real thing is**, and what separates it from the idea.
 
-Example of move 1 with "every financial network runs on a blockchain": assume
-it has happened. Then at least these were solved: privacy of positions on a
-shared ledger, legal finality of a block, who may reverse a mistaken transfer,
-throughput at the scale of card networks. Each is a separate question, and the
-learner picks the one that interests them.
+Example of move 1 with "peer review runs as a prediction market": assume it
+has happened. Then at least these were solved: who funds the stakes, how a bet
+is settled when the truth of a paper takes years to show, what stops a
+reviewer betting against a paper and then sinking it, and whether reviewers
+stay anonymous. Each is a separate question, and the learner picks the one
+that interests them.
 
 ## Conduct of the session
 
@@ -78,7 +79,7 @@ learner picks the one that interests them.
 
 ```markdown
 ---
-seed: "Every financial network runs on a blockchain"
+seed: "Peer review runs as a prediction market"
 date: 2026-11-22
 status: open        # open | carried-forward | dropped
 ---
