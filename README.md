@@ -15,12 +15,18 @@ Design and the learning flow are described in `docs/overview.md`.
 
 | Skill | Use |
 |---|---|
-| `/topic [candidate]` | Narrow to one thesis topic: evaluate candidates one page at a time, keep or drop. |
-| `/map <topic>` | Break a broad topic into branches small enough for one lesson. |
-| `/lesson <topic>` | Learn one concept; ends with a card in your own words. Parks tangents. |
-| `/read <arXiv ID>` | Read a paper with a guide ordered by what depends on what. |
-| `/lookup <term>` | Recap something you learned before, from your own notes. |
+| **Phase A: find a topic** | |
+| `/topic [candidate]` | Evaluate candidate topics one page at a time; keep or drop. |
 | `/brainstorm <idea>` | Explore far-fetched ideas and links between distant fields, without judging them yet. |
+| `/map <topic>` | Break a broad area into branches. |
+| **Phase B: do the thesis** | |
+| `/thesis` | Where the work stands and the one next step. |
+| `/breakdown <need>` | Split what a step requires you to understand into small pieces; read one at a time. |
+| `/gate [n]` | Check the current stage against the hard requirements in `docs/gates.md`. |
+| `/verify <claim>` | Run a check: counterexample search, assumption consistency, rerun a result, confirm a citation. |
+| `/review <file>` | A review by an outside reviewer who has not seen the conversation. |
+| **Also available** | |
+| `/lesson`, `/read`, `/lookup` | Learn one concept; read a whole paper with a guide; recap from your notes. |
 
 ## Layout
 
@@ -29,6 +35,7 @@ Design and the learning flow are described in `docs/overview.md`.
 | `library/` | Concept and paper cards (`docs/library-format.md`). `INDEX.md` is generated. |
 | `lessons/` | One file per lesson: the guess, the explanation, what was parked. |
 | `maps/` | Topic maps. |
+| `thesis/` | The thesis: status of the nine gates, problem, model, claims, checks, results, draft, reviews. |
 | `topics/` | The topic search: criteria, the candidate list, one page per evaluated candidate. |
 | `guides/` | Reading guides for papers. |
 | `ideas/` | Notes from brainstorms. Speculation unless marked otherwise. |

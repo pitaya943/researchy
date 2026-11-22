@@ -72,8 +72,8 @@ learner can see what would settle it.
 - **Watch the search as a whole.** If several candidates have been evaluated
   and none kept, or several kept and none chosen, say so and ask what is
   holding the decision back.
-- When one candidate is chosen, stop. What follows (reading, modelling,
-  verification) is a different phase.
+- When one candidate is chosen, mark it `選定` in `candidates.md` and stop.
+  What follows (reading, modelling, verification) is `/thesis`.
 
 ## Page format
 
