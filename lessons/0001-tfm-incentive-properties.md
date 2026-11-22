@@ -1,16 +1,16 @@
 ---
-topic: "Incentive properties of a transaction fee mechanism (branch 1 of maps/transaction-fee-mechanisms.md)"
-scope: "Who can game a fee mechanism and what property defends against each party; not price dynamics, MEV, or any proof."
+topic: "手續費機制的誘因性質(maps/transaction-fee-mechanisms.md 的方向 1)"
+scope: "誰能鑽手續費機制的漏洞,以及用什麼性質來防住每一方;不含價格動態、MEV 與任何證明。"
 date: 2026-11-21
 status: unfinished
 cards: []
 ---
-## Prediction
-Question: You are designing how users pay to get a transaction into a block. Block space is limited, users attach a fee, and the block producer chooses which transactions to include. Who could game this system, and what would each of them try?
-My guess: (pending)
+## 預測
+問題:你要設計「使用者怎麼付費讓交易進入區塊」的規則。區塊空間有限,使用者附上手續費,出塊者決定納入哪些交易。誰有可能鑽這個制度的漏洞?每一方各會怎麼做?
+我的猜測:(待填)
 
-## Explanation
+## 講解
 
-## In my own words
+## 用我自己的話
 
-## Parked
+## 擱置

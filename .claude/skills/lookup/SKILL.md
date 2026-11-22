@@ -16,7 +16,7 @@ a convenience, not a search engine: look loosely, answer briefly.
    arithmetic"). If the index shows nothing likely, search `library/` and
    `lessons/` for a keyword or two. Stop there; do not search exhaustively.
 2. **Found**: recap in a few sentences, leading with the learner's own summary
-   (`## In my own words`). Then list the card's links, and what links to it
+   (`## 用我自己的話`). Then list the card's links, and what links to it
    (search `library/` for `to: <id>`), so they can follow the idea to related
    concepts. Name the card and its `learned_in` lessons.
 3. **Not found**: say in one line that there is no record, then answer the

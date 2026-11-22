@@ -75,14 +75,14 @@ seed: "Every financial network runs on a blockchain"
 date: 2026-11-22
 status: open        # open | carried-forward | dropped
 ---
-> Everything here is speculation unless marked otherwise.
+> 以下內容除非另外標示,否則都是推測。
 
-## Threads
+## 線
 - **<short name>**: the idea in one or two sentences, in the learner's words where possible.
-  Would need: what has to be true for it to work.
-  Bridge: the distant field or tool it borrows from, if any.
+  需要成立:what has to be true for it to work.
+  橋接:the distant field or tool it borrows from, if any.
 
-## Seeds worth testing
+## 值得測試的種子
 - <thread>: the cheapest way to find out whether it is already done or cannot work.
 ```
 
@@ -90,7 +90,7 @@ status: open        # open | carried-forward | dropped
 
 Stop when the learner does, or when new threads stop appearing. Then, and only
 then, ask which one or two threads they want to carry forward, and add them
-under "Seeds worth testing". Do not rank the threads yourself and do not prune
+under `## 值得測試的種子`. Do not rank the threads yourself and do not prune
 the rest: an idea that looks dead today may be the bridge next month.
 
 A seed carried forward goes to `/related` (has anyone done it) and

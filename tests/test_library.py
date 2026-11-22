@@ -100,3 +100,9 @@ def test_index_lists_topics_names_and_frontier_and_detects_staleness(tmp_path):
     assert library.main(["index", "--check", *root]) == 0
     (tmp_path / "library" / "modular-arithmetic.md").unlink()
     assert library.main(["index", "--check", *root]) == 1
+
+
+def test_claims_under_the_chinese_heading_are_checked_too(tmp_path):
+    bad = MODULAR.replace("## Claims", "## 主張").replace("- [model-only] Integers", "- Integers")
+    problems = library.check(make(tmp_path, modular_arithmetic=bad))
+    assert any("without a valid grade" in p for p in problems)

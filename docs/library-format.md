@@ -36,11 +36,11 @@ sources:
 learned_in: [lessons/0003-fermat-little-theorem.md]
 created: 2026-11-21
 ---
-## Claims
+## 主張
 - [source-exists: hardy-wright] If p is prime and p does not divide a, then a^(p-1) ≡ 1 (mod p).
 - [model-only] It is the case n = p of Euler's theorem.
 
-## In my own words
+## 用我自己的話
 (Written by the learner, not the agent.)
 ```
 
@@ -48,7 +48,7 @@ Required fields: `id`, `title`, `topics`, `created`.
 
 ### Check grades
 
-Every bullet under `## Claims` starts with a grade. A grade states only which
+Every bullet under `## 主張` starts with a grade. A grade states only which
 check was actually performed.
 
 | Grade | Meaning | Needs a source key |
@@ -79,10 +79,10 @@ with `kind: paper` and an id such as `roughgarden-2021-tfm`. It adds two
 sections that later feed gap-finding:
 
 ```markdown
-## Assumptions
+## 假設
 - [source-exists: self] Miners are myopic: they maximise revenue from the current block only. (section 3.2)
 
-## Open problems (as the authors state them)
+## 未解問題(作者自述)
 - [source-exists: self] ... (section 6)
 ```
 

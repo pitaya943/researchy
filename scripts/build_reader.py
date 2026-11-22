@@ -100,6 +100,8 @@ def extract_article(page_html: str, own_url: str) -> str:
 
 
 UNIT_RE = re.compile(r"^(\d+)\. \*\*(.+?)\*\* — (.*)$")
+# Guides are written in the learner's language; both spellings of each marker are read.
+FIELD_RE = re.compile(r"^(Needs|需要|Before you read|讀之前)[::]\s*(.*)$")
 ANCHOR_RE = re.compile(r"\]\(https://arxiv\.org/html/[^#)]+#([^)]+)\)")
 
 
@@ -109,25 +111,27 @@ def parse_guide(text: str) -> dict:
     meta = yaml.safe_load(front)
 
     prereqs = []
-    chapter0 = body.split("## Chapter 0", 1)[1].split("\n## ", 1)[0] if "## Chapter 0" in body else ""
-    for line in chapter0.splitlines():
+    chapter0 = re.split(r"^## (?:Chapter 0|第 0 章)", body, maxsplit=1, flags=re.M)
+    for line in (chapter0[1].split("\n## ", 1)[0] if len(chapter0) == 2 else "").splitlines():
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
-        if len(cells) == 4 and cells[0] not in ("Concept", "") and not set(cells[0]) <= {"-"}:
-            prereqs.append({"concept": cells[0], "neededFor": cells[1], "first": cells[3].lower() == "learn first"})
+        if len(cells) == 4 and cells[0] not in ("Concept", "概念", "") and not set(cells[0]) <= {"-"}:
+            prereqs.append({"concept": cells[0], "neededFor": cells[1],
+                            "first": cells[3].lower() in ("learn first", "先學")})
 
     units, section = [], ""
     for line in body.splitlines():
         if line.startswith("## "):
             section = line[3:]
         match = UNIT_RE.match(line)
+        field = FIELD_RE.match(line.strip())
         if match:
             anchor = ANCHOR_RE.search(match.group(3))
             units.append({"n": int(match.group(1)), "title": match.group(2), "anchor": anchor.group(1) if anchor else "",
-                          "needs": "", "question": "", "provisional": section.startswith("Later units")})
-        elif units and line.strip().startswith("Needs:"):
-            units[-1]["needs"] = line.strip()[len("Needs:"):].strip()
-        elif units and line.strip().startswith("Before you read:"):
-            units[-1]["question"] = line.strip()[len("Before you read:"):].strip()
+                          "needs": "", "question": "",
+                          "provisional": section.startswith(("Later units", "後續單元"))})
+        elif units and field:
+            key = "needs" if field.group(1) in ("Needs", "需要") else "question"
+            units[-1][key] = field.group(2).strip()
     return {"paper": meta["paper"], "title": meta["title"], "authors": meta["authors"], "prereqs": prereqs, "units": units}
 
 

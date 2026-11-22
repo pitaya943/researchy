@@ -25,7 +25,9 @@ reading they usually cannot say; the questions come out of the reading.
 
 ## 2. Build the reading guide
 
-Write `guides/<id>.md`. Follow the layout of an existing guide in `guides/`.
+Write `guides/<id>.md` in the learner's language. Follow the layout of an existing
+guide in `guides/` exactly: `scripts/build_reader.py` parses its unit lines, the
+`需要:` and `讀之前:` fields and the chapter 0 table.
 
 1. **Read before you write.** Build a unit only from text you have read in
    this session. List the sections you read in full and the ones you know
@@ -36,7 +38,7 @@ Write `guides/<id>.md`. Follow the layout of an existing guide in `guides/`.
    (section, definition or theorem number, link).
 3. **Find what each unit needs.** A need is either another unit, a concept
    with a card in `INDEX.md`, or a concept that is in neither.
-4. **Chapter 0.** List every concept of the third kind: needed, and not
+4. **Chapter 0 (`## 第 0 章`).** List every concept of the third kind: needed, and not
    explained in the paper. Say where it is first needed and how the paper
    treats it, and split "learn first" from "can wait". This is what stops the
    learner meeting a step they cannot yet do.
@@ -69,7 +71,7 @@ places they did not follow.
 The learner reads one unit at a time in the original. For each unit: they
 answer its question first, read, then say what was different from their guess.
 
-When they do not follow something, record it under `## Marks` in the guide:
+When they do not follow something, record it under `## 標記` in the guide:
 the location, their words, and what happened to it. A mark is handled like a
 question in a lesson: answer a gap briefly and return; park a tangent in
 `PARKED.md`. Any statement you add from your own knowledge is `model-only`.
@@ -79,7 +81,7 @@ question in a lesson: answer a gap briefly and return; park a tangent in
 When the learner leaves the paper to follow a citation, keep a stack so they
 can get back:
 
-1. Push: write the sentence they came from and its location under `## Marks`.
+1. Push: write the sentence they came from and its location under `## 標記`.
    That sentence is the question; do not ask them to phrase one.
 2. Open the cited paper (`arxiv.py get`). Find the passage that supports the
    sentence and show the learner where it is. Do not build a full guide for a
@@ -99,7 +101,7 @@ to park the rest, exactly as a lesson does.
 1. Create a paper card `library/<id>.md` (format in `docs/library-format.md`,
    "Paper cards"). You fill in the assumptions and the open problems the
    authors state, each with its location; the learner writes
-   `## In my own words`.
+   `## 用我自己的話`.
 2. Concepts learned along the way get their own concept cards, linked from
    the paper card.
 3. Run `python3 scripts/library.py check` and `index`.

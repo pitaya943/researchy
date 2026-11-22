@@ -154,27 +154,27 @@ mark.saved { background: var(--mark); color: var(--mark-ink); border-radius: 2px
 <div class="shell">
   <aside class="rail collapsed" id="rail">
     <header>
-      <p class="eyebrow">Reading guide · 閱讀指南</p>
+      <p class="eyebrow">閱讀指南</p>
       <h1 id="paper-title"></h1>
       <p class="byline" id="paper-byline"></p>
     </header>
-    <button class="btn ghost rail-toggle" id="rail-toggle" type="button" aria-expanded="false">Show guide · 顯示指南</button>
+    <button class="btn ghost rail-toggle" id="rail-toggle" type="button" aria-expanded="false">顯示指南</button>
     <div class="rail-body">
       <div class="tabs" role="tablist">
-        <button type="button" role="tab" id="tab-units" aria-selected="true" aria-controls="pane-units">Units 單元</button>
-        <button type="button" role="tab" id="tab-prereqs" aria-selected="false" aria-controls="pane-prereqs">Chapter 0</button>
-        <button type="button" role="tab" id="tab-marks" aria-selected="false" aria-controls="pane-marks">Marks 標記</button>
+        <button type="button" role="tab" id="tab-units" aria-selected="true" aria-controls="pane-units">單元</button>
+        <button type="button" role="tab" id="tab-prereqs" aria-selected="false" aria-controls="pane-prereqs">第 0 章</button>
+        <button type="button" role="tab" id="tab-marks" aria-selected="false" aria-controls="pane-marks">標記</button>
       </div>
       <div id="pane-units" role="tabpanel" aria-labelledby="tab-units">
         <ol class="units" id="units"></ol>
-        <p class="note" id="prov-note" hidden>Greyed units come from headings only; the agent has not read them yet. 灰色單元只根據標題,agent 尚未讀過。</p>
+        <p class="note" id="prov-note" hidden>灰色單元只根據標題,agent 尚未讀過。</p>
       </div>
       <div id="pane-prereqs" role="tabpanel" aria-labelledby="tab-prereqs" hidden>
-        <p class="note">Needed, but not explained in the paper. 論文用到但沒解釋的概念。</p>
+        <p class="note">論文用到但沒解釋的概念。</p>
         <ul class="prereqs" id="prereqs"></ul>
       </div>
       <div id="pane-marks" role="tabpanel" aria-labelledby="tab-marks" hidden>
-        <p class="note" id="marks-note">Select any passage in the paper to ask about it. 反白論文中任何一段即可提問。</p>
+        <p class="note" id="marks-note">反白論文中任何一段即可提問。</p>
         <ul class="marks" id="marks"></ul>
       </div>
     </div>
@@ -185,27 +185,27 @@ __ARTICLE__
   </main>
 </div>
 
-<button id="ask-btn" type="button" hidden>Explain · 說明</button>
+<button id="ask-btn" type="button" hidden>說明</button>
 
-<aside class="drawer" id="drawer" hidden aria-label="Explanation">
+<aside class="drawer" id="drawer" hidden aria-label="說明">
   <div class="drawer-head">
-    <h2>Explanation · 說明</h2>
-    <button class="icon-btn" id="drawer-close" type="button" aria-label="Close">&times;</button>
+    <h2>說明</h2>
+    <button class="icon-btn" id="drawer-close" type="button" aria-label="關閉">&times;</button>
   </div>
   <div class="row">
-    <span class="chip warn" title="Written on the spot by the model; not checked against any source.">model-only · 未查證</span>
-    <span class="seg" role="group" aria-label="Depth">
-      <button type="button" id="tier-quick" aria-pressed="true">Quick 快</button>
-      <button type="button" id="tier-default" aria-pressed="false">Deep 深</button>
+    <span class="chip warn" title="模型當場生成,未對照任何來源查證。">model-only · 未查證</span>
+    <span class="seg" role="group" aria-label="深度">
+      <button type="button" id="tier-quick" aria-pressed="true">快速</button>
+      <button type="button" id="tier-default" aria-pressed="false">深入</button>
     </span>
   </div>
   <blockquote class="quote" id="drawer-quote"></blockquote>
   <div class="thread" id="thread"></div>
   <p class="note" id="drawer-note" hidden></p>
   <form class="followup" id="followup">
-    <input id="followup-input" type="text" autocomplete="off" placeholder="Ask a follow-up · 追問" aria-label="Follow-up question">
-    <button class="btn" id="followup-send" type="submit">Ask</button>
-    <button class="btn ghost" id="stop" type="button" hidden>Stop</button>
+    <input id="followup-input" type="text" autocomplete="off" placeholder="追問" aria-label="追問">
+    <button class="btn" id="followup-send" type="submit">送出</button>
+    <button class="btn ghost" id="stop" type="button" hidden>停止</button>
   </form>
 </aside>
 
@@ -241,12 +241,12 @@ __ARTICLE__
   $("rail-toggle").addEventListener("click", () => {
     const collapsed = $("rail").classList.toggle("collapsed");
     $("rail-toggle").setAttribute("aria-expanded", String(!collapsed));
-    $("rail-toggle").textContent = collapsed ? "Show guide · 顯示指南" : "Hide guide · 隱藏指南";
+    $("rail-toggle").textContent = collapsed ? "顯示指南" : "隱藏指南";
   });
 
   for (const p of guide.prereqs) {
     $("prereqs").append(el("li", { className: p.first ? "first" : "" },
-      p.concept, el("small", {}, (p.first ? "Learn first 先學" : "Can wait 可稍後") + " · needed for " + p.neededFor)));
+      p.concept, el("small", {}, (p.first ? "先學" : "可稍後") + " · 首次用於" + p.neededFor)));
   }
 
   // ---------- units: rail entries and a card before each unit in the paper ----------
@@ -263,15 +263,15 @@ __ARTICLE__
 
     const card = el("section", { className: "unit", id: "unit-" + u.n });
     card.append(el("div", { className: "unit-head" },
-      el("span", { className: "chip" }, "Unit " + u.n), el("b", {}, u.title),
-      u.provisional ? el("span", { className: "chip warn" }, "provisional · 暫定") : ""));
-    if (u.needs) card.append(el("p", { className: "needs" }, "Needs · 需要: " + u.needs));
+      el("span", { className: "chip" }, "單元 " + u.n), el("b", {}, u.title),
+      u.provisional ? el("span", { className: "chip warn" }, "暫定") : ""));
+    if (u.needs) card.append(el("p", { className: "needs" }, "需要:" + u.needs));
     if (u.question) {
-      const box = el("textarea", { id: "guess-" + u.n, placeholder: "Your answer before reading · 讀之前先寫下你的答案" });
+      const box = el("textarea", { id: "guess-" + u.n, placeholder: "讀之前先寫下你的答案" });
       const status = el("span", { className: "note" });
-      const save = el("button", { className: "btn ghost", type: "button" }, "Save · 儲存");
+      const save = el("button", { className: "btn ghost", type: "button" }, "儲存");
       save.addEventListener("click", () => saveGuess(u.n, box, save, status));
-      card.append(el("p", { className: "ask" }, "Before you read · 讀之前: " + u.question), box, el("div", { className: "row" }, save, status));
+      card.append(el("p", { className: "ask" }, "讀之前:" + u.question), box, el("div", { className: "row" }, save, status));
       guessBoxes.set(String(u.n), { box, status });
     }
     anchor.before(card);
@@ -323,13 +323,13 @@ __ARTICLE__
   $("tier-default").addEventListener("click", () => setTier("default"));
 
   const errorCopy = (code) => ({
-    not_granted: "Explanations are turned off for this page. 此頁面未獲准向 Claude 提問。",
-    sampling_disabled: "Claude is not available for this account. 此帳號無法使用。",
-    rate_limited: "Too many requests; try again in a moment. 請求太頻繁,請稍後再試。",
-    session_expired: "Please sign in again. 請重新登入。",
-    refused: "Claude declined this passage. Try selecting a different part. 無法回答這段,請換一段。",
-    prompt_too_large: "The selection is too long. Select less. 反白太長,請選短一點。",
-  }[code] || "The answer was interrupted. Ask again. 回答中斷,請再問一次。");
+    not_granted: "此頁面未獲准向 Claude 提問。",
+    sampling_disabled: "此帳號無法使用這項功能。",
+    rate_limited: "請求太頻繁,請稍後再試。",
+    session_expired: "請重新登入。",
+    refused: "無法回答這段,請換一段反白。",
+    prompt_too_large: "反白太長,請選短一點。",
+  }[code] || "回答中斷,請再問一次。");
 
   const RULES = [
     "You are helping a computer science master's student read a research paper. They are fluent in algorithms, systems and",
@@ -370,7 +370,7 @@ __ARTICLE__
     }
     if (question) turns.push({ role: "user", content: question });
     if (question) $("thread").append(el("div", { className: "turn-q" }, question));
-    const bubble = el("div", { className: "turn-a pending" }, "Thinking… 思考中…");
+    const bubble = el("div", { className: "turn-a pending" }, "思考中…");
     $("thread").append(bubble);
     bubble.scrollIntoView({ block: "nearest" });
     controller = new AbortController();
@@ -383,7 +383,7 @@ __ARTICLE__
       bubble.classList.remove("pending");
       bubble.textContent = text;
       current.turns.push({ q: question || "", a: text });
-      if (truncated) { $("drawer-note").textContent = "Cut short. Select a shorter passage. 回答被截斷。"; $("drawer-note").hidden = false; }
+      if (truncated) { $("drawer-note").textContent = "回答被截斷,請反白短一點的段落。"; $("drawer-note").hidden = false; }
       await saveMark();
     } catch (e) {
       if (e && e.text) { bubble.classList.remove("pending"); bubble.textContent = e.text; } else bubble.remove();
@@ -456,7 +456,7 @@ __ARTICLE__
     const list = [...marks.values()].sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
     $("marks").replaceChildren(...list.map((m) => {
       const open = el("button", { type: "button" }, el("span", { className: "q" }, m.quote),
-        el("small", {}, (m.unitN ? "Unit " + m.unitN + " · " : "") + m.turns.length + " answer(s)"));
+        el("small", {}, (m.unitN ? "單元 " + m.unitN + " · " : "") + m.turns.length + " 則回答"));
       open.addEventListener("click", () => {
         const target = m.paraId && document.getElementById(m.paraId);
         if (target) { target.scrollIntoView({ block: "center" }); target.classList.remove("flash"); void target.offsetWidth; target.classList.add("flash"); }
@@ -465,9 +465,8 @@ __ARTICLE__
       });
       return el("li", {}, open);
     }));
-    $("marks-note").textContent = list.length ? "Your questions so far. 你目前問過的段落。"
-      : "Select any passage in the paper to ask about it. 反白論文中任何一段即可提問。";
-    $("tab-marks").textContent = "Marks 標記" + (list.length ? " (" + list.length + ")" : "");
+    $("marks-note").textContent = list.length ? "你目前問過的段落。" : "反白論文中任何一段即可提問。";
+    $("tab-marks").textContent = "標記" + (list.length ? " (" + list.length + ")" : "");
   };
 
   let saving = Promise.resolve();
@@ -480,33 +479,33 @@ __ARTICLE__
       await ref.set({ quote: thread.quote, context: thread.context, section: thread.section, paraId: thread.paraId,
         unitN: thread.unit ? thread.unit.n : null, turns: thread.turns, createdAt: thread.createdAt || (thread.createdAt = new Date().toISOString()),
         updatedAt: new Date().toISOString() });
-    }).catch(() => { $("drawer-note").textContent = "Could not save this mark. 無法儲存這則標記。"; $("drawer-note").hidden = false; });
+    }).catch(() => { $("drawer-note").textContent = "無法儲存這則標記。"; $("drawer-note").hidden = false; });
     return saving;
   };
 
   const saveGuess = async (n, box, button, status) => {
-    if (!db) { status.textContent = "Saving is unavailable in this view. 此檢視無法儲存。"; return; }
+    if (!db) { status.textContent = "此檢視無法儲存。"; return; }
     button.disabled = true;
     try {
       await db.collection("guesses").doc("unit-" + n).set({ unitN: n, text: box.value, updatedAt: new Date().toISOString() });
-      status.textContent = "Saved · 已儲存";
+      status.textContent = "已儲存";
       $("rail-unit-" + n).classList.add("done");
-    } catch { status.textContent = "Could not save. 無法儲存。"; }
+    } catch { status.textContent = "無法儲存。"; }
     button.disabled = false;
   };
 
   const start = async () => {
-    if (!window.claude || !window.claude.use) { $("marks-note").textContent = "Open this page in Claude to ask questions. 請在 Claude 中開啟此頁以提問。"; return; }
+    if (!window.claude || !window.claude.use) { $("marks-note").textContent = "請在 Claude 中開啟此頁以提問。"; return; }
     [sample, db] = await Promise.all([window.claude.use("sample"), window.claude.use("db")]);
-    if (!sample) $("marks-note").textContent = "Explanations are unavailable in this view. 此檢視無法提問。";
+    if (!sample) $("marks-note").textContent = "此檢視無法提問。";
     if (!db) return;
-    const slow = setTimeout(() => { if (!marks.size) $("marks-note").textContent = "Saved marks can't be reached yet. 暫時讀不到已存的標記。"; }, 10000);
+    const slow = setTimeout(() => { if (!marks.size) $("marks-note").textContent = "暫時讀不到已存的標記。"; }, 10000);
     db.collection("marks").onSnapshot((snap) => {
       if (!snap.metadata.fromCache) clearTimeout(slow);
       marks.clear();
       for (const d of snap.docs) { const body = d.data(); if (body && Array.isArray(body.turns)) marks.set(d.id, { id: d.id, ...body }); }
       renderMarks();
-    }, () => { clearTimeout(slow); $("marks-note").textContent = "Saved marks are unavailable. 無法讀取已存的標記。"; });
+    }, () => { clearTimeout(slow); $("marks-note").textContent = "無法讀取已存的標記。"; });
     db.collection("guesses").onSnapshot((snap) => {
       for (const d of snap.docs) {
         const body = d.data(); const entry = body && guessBoxes.get(String(body.unitN));

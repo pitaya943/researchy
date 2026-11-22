@@ -1,6 +1,6 @@
 ---
 topic: Transaction fee mechanism (TFM) design
-purpose: "Orientation: see the research directions before choosing a first lesson. Assumed, not yet confirmed by the learner."
+purpose: "先看全貌:在選第一堂課之前了解有哪些研究方向。這是 agent 的假設,學習者尚未確認。"
 date: 2026-11-21
 sources:
   roughgarden-2021: {ref: "arXiv:2106.01340", title: "Transaction Fee Mechanism Design"}
@@ -17,71 +17,63 @@ sources:
   tang-zhang-2023: {ref: "arXiv:2302.06769", title: "Transaction Fee Mining and Mechanism Design"}
   anchuri-mamageishvili-2026: {ref: "arXiv:2606.13555", title: "Price Elasticity of Gas Demand on L1 and L2: Evidence from Ethereum and Arbitrum"}
 ---
-> **How far this map was checked.** On 2026-11-22 the title, authors and
-> abstract of each paper under `sources` were opened through the arXiv API, so
-> the papers exist and are about what the branch says. Only sections 2 and 3
-> of `roughgarden-2021` were read in full. The split into eight branches is
-> still the agent's own; no survey was read to confirm it.
+> **這張地圖查證到什麼程度。** 2026-11-22 透過 arXiv API 開啟了 `sources` 中每篇論文的標題、作者與摘要,所以這些論文確實存在,主題也與所屬方向相符。只有 `roughgarden-2021` 的第 2、3 節被完整讀過。分成八個方向仍是 agent 自己的劃分,沒有讀過任何 survey 來確認。
 
-## Branches
+## 方向
 
-- [ ] **1. Incentive properties** [source-exists: roughgarden-2021]
-  Question: which participants can a fee mechanism be made robust against, and can it be robust against all of them at once?
-  Needs: what a block producer does; basic auction ideas (first-price auction, incentive compatibility).
-  Lesson: lessons/0001-tfm-incentive-properties.md (in progress)
+- [ ] **1. 誘因性質(incentive properties)** [source-exists: roughgarden-2021]
+  問題:一個手續費機制能防住哪些參與者?能同時防住全部嗎?
+  需要:出塊者在做什麼;基本的拍賣概念(first-price auction、incentive compatibility)。
+  Lesson:lessons/0001-tfm-incentive-properties.md(進行中)
 
-- [ ] **2. Relaxing the model** [source-exists: ganesh-thomas-weinberg-2024]
-  Question: if no mechanism can have every desired property, which assumptions can be weakened to get around that?
-  Needs: branch 1.
-  Lesson: (none yet)
+- [ ] **2. 放寬模型** [source-exists: ganesh-thomas-weinberg-2024]
+  問題:如果沒有機制能同時擁有所有想要的性質,可以放寬哪些假設來繞過?
+  需要:方向 1。
+  Lesson:(尚無)
 
-- [ ] **3. Price dynamics** [source-exists: ferreira-2021]
-  Question: when the protocol posts a price instead of running an auction, how should that price move from block to block, and does it settle?
-  Needs: branch 1 helps; a little control or optimisation intuition.
-  Lesson: (none yet)
+- [ ] **3. 價格動態** [source-exists: ferreira-2021]
+  問題:當協定直接公告價格而不是辦拍賣時,這個價格該如何逐區塊調整?它會穩定下來嗎?
+  需要:方向 1 有幫助;一點控制或最佳化的直覺。
+  Lesson:(尚無)
 
-- [ ] **4. Multidimensional fees** [source-exists: diamandis-2022]
-  Question: should different resources (computation, storage, data) have separate prices instead of one fee?
-  Needs: branch 3.
-  Lesson: (none yet)
+- [ ] **4. 多維費用** [source-exists: diamandis-2022]
+  問題:不同的資源(運算、儲存、資料)應該分開定價,而不是共用一個費用嗎?
+  需要:方向 3。
+  Lesson:(尚無)
 
-- [ ] **5. MEV and the block-building pipeline** [model-only]
-  Question: what changes when the block producer earns from ordering transactions, and when building and proposing a block are done by different parties?
-  Needs: branch 1; what MEV is.
-  Lesson: (none yet)
+- [ ] **5. MEV 與出塊流程** [model-only]
+  問題:當出塊者能從交易排序獲利,以及組裝區塊與提出區塊由不同角色負責時,什麼會改變?
+  需要:方向 1;MEV 是什麼。
+  Lesson:(尚無)
 
-- [ ] **6. Protocol architecture** [source-exists: garimidi-heimbach-roughgarden-2025]
-  Question: the standard model has one block producer per block; what changes for leaderless protocols or parallel execution?
-  Needs: branch 1; consensus basics.
-  Lesson: (none yet)
+- [ ] **6. 協定架構** [source-exists: garimidi-heimbach-roughgarden-2025]
+  問題:標準模型假設每個區塊只有一個出塊者。對 leaderless 協定或平行執行,什麼會改變?
+  需要:方向 1;共識機制的基礎。
+  Lesson:(尚無)
 
-- [ ] **7. Mining incentives under fee revenue** [source-exists: tang-zhang-2023]
-  Question: when fees, not the block subsidy, pay the block producers, which attacks on the chain itself become profitable?
-  Needs: how Bitcoin mining rewards work.
-  Lesson: (none yet)
+- [ ] **7. 以手續費為主的挖礦誘因** [source-exists: tang-zhang-2023]
+  問題:當出塊者的收入主要來自手續費而不是區塊補貼時,哪些針對鏈本身的攻擊會變得有利可圖?
+  需要:Bitcoin 的挖礦獎勵如何運作。
+  Lesson:(尚無)
 
-- [ ] **8. Empirical studies** [source-exists: anchuri-mamageishvili-2026]
-  Question: what do on-chain data show about how deployed fee mechanisms and their users actually behave?
-  Needs: whichever branch the study tests; on-chain data handling.
-  Lesson: (none yet)
+- [ ] **8. 實證研究** [source-exists: anchuri-mamageishvili-2026]
+  問題:鏈上資料顯示,已上線的手續費機制與使用者實際上如何運作?
+  需要:該研究所檢驗的那個方向;鏈上資料處理。
+  Lesson:(尚無)
 
-## Suggested order
+## 建議順序
 
-Start with branch 1. It supplies the vocabulary (who the parties are and what
-each can do) that every other branch uses. Then branch 3, which is the part of
-a deployed mechanism you can see directly in data. After that, choose by
-purpose: branches 7 and 8 are closest to Bitcoin data analytics; branches 2, 5
-and 6 are the theory frontier; branch 4 matters mostly for Ethereum.
+先學方向 1。它提供其他方向都會用到的詞彙(有哪些參與者、各自能做什麼)。接著學方向 3,這是已上線機制中你能直接在資料裡看到的部分。之後依目的選擇:方向 7、8 最接近 Bitcoin 資料分析;方向 2、5、6 是理論前沿;方向 4 主要與 Ethereum 有關。
 
-## Papers by branch
+## 各方向的論文
 
-- Branch 1: roughgarden-2021, roughgarden-2020, chung-shi-2021, chung-roughgarden-shi-2024
-- Branch 2: chung-roughgarden-shi-2024, ganesh-thomas-weinberg-2024
-- Branch 3: roughgarden-2020, ferreira-2021, crapis-moallemi-wang-2023
-- Branch 4: crapis-moallemi-wang-2023, diamandis-2022, kiayias-2025
-- Branch 5: none opened. The branch stays `model-only`.
-- Branch 6: garimidi-heimbach-roughgarden-2025, acilan-2025
-- Branch 7: tang-zhang-2023
-- Branch 8: anchuri-mamageishvili-2026
+- 方向 1:roughgarden-2021、roughgarden-2020、chung-shi-2021、chung-roughgarden-shi-2024
+- 方向 2:chung-roughgarden-shi-2024、ganesh-thomas-weinberg-2024
+- 方向 3:roughgarden-2020、ferreira-2021、crapis-moallemi-wang-2023
+- 方向 4:crapis-moallemi-wang-2023、diamandis-2022、kiayias-2025
+- 方向 5:沒有開啟過任何論文,所以維持 `model-only`。
+- 方向 6:garimidi-heimbach-roughgarden-2025、acilan-2025
+- 方向 7:tang-zhang-2023
+- 方向 8:anchuri-mamageishvili-2026
 
-Reading guide for roughgarden-2021: `guides/2106.01340.md`.
+roughgarden-2021 的閱讀指南:`guides/2106.01340.md`。

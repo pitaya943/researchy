@@ -71,7 +71,7 @@ tangent. Say so, and offer to switch to it or to park it.
 **To park**, append one line to `PARKED.md` (create it if needed):
 
 ```
-- [ ] <the question, in the learner's words> (lessons/NNNN, <date>): <why it came up>
+- [ ] <the question, in the learner's words>(lessons/NNNN,<date>):<why it came up>
 ```
 
 When a later lesson takes a parked item as its topic, tick its box.
@@ -81,7 +81,7 @@ When a later lesson takes a parked item as its topic, tick its box.
 1. Write the lesson file: the guess, your explanation with grade labels, the
    learner's restatement, and the items parked.
 2. Create or update the concept card `library/<id>.md`. The learner's
-   restatement goes under `## In my own words` unchanged. Add `links` to the
+   restatement goes under `## 用我自己的話` unchanged. Add `links` to the
    concepts the lesson relied on, including ones with no card yet.
 3. Run `python3 scripts/library.py check` and `python3 scripts/library.py index`.
    Fix what `check` reports.

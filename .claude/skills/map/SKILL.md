@@ -46,7 +46,7 @@ learned, so it never creates concept cards.
 - A paper counts as a source only if you opened it in this session. Give its
   identifier (arXiv ID or DOI) so it can be checked.
 - A paper you saw only in search results, or could not open, goes under
-  `## Unopened leads` with its identifier and title as the search showed them.
+  `## 未開啟的線索` with its identifier and title as the search showed them.
   A lead supports no grade: the branch it sits under stays `model-only`.
 - If no source can be opened at all (network rules, paywall), say so at the
   top of the map and in your reply. Do not quietly fall back to memory.
@@ -66,15 +66,15 @@ date: 2026-11-21
 sources:
   roughgarden-2021: {ref: "arXiv:2106.01340", title: "Transaction Fee Mechanism Design"}
 ---
-## Branches
-- [ ] **Incentive properties** [source-exists: roughgarden-2021]
-  Question: which participants can a fee mechanism be made robust against?
-  Needs: basic auction theory.
-  Lesson: (none yet)
+## 方向
+- [ ] **誘因性質(incentive properties)** [source-exists: roughgarden-2021]
+  問題:一個手續費機制能防住哪些參與者?
+  需要:基本的拍賣理論。
+  Lesson:(尚無)
 
-## Suggested order
+## 建議順序
 ...
 
-## Unopened leads
+## 未開啟的線索
 - arXiv:2111.03151 "Foundations of Transaction Fee Mechanism Design" (branch: Incentive properties)
 ```

@@ -82,3 +82,39 @@ def test_build_fills_the_template_and_escapes_script_end_in_json():
     page = build_reader.build(PAGE, guide, "<title>__TITLE__</title><script>__GUIDE_JSON__</script>__ARTICLE__", URL)
     assert "<title>A Paper Reader</title>" in page
     assert "<\\/script> do?" in page and "what does </script>" not in page
+
+
+GUIDE_ZH = f"""---
+paper: "arXiv:1234.56789v1"
+title: A Paper
+authors: [Ann Author]
+---
+## 第 0 章:論文用到但沒解釋的概念
+
+| 概念 | 首次用於 | 論文怎麼處理 | 優先度 |
+|---|---|---|---|
+| Dominant strategy(優勢策略) | 單元 1 | 只有一句 | 先學 |
+| Proof-of-work | 單元 1 | 一個註腳 | 可稍後 |
+
+## 單元(依閱讀順序)
+
+1. **模型** — 第 2 節([連結]({URL}#S2))
+   需要:無。
+   讀之前:誰決定?
+
+## 後續單元(僅根據標題,agent 尚未讀過)
+
+2. **結果** — 第 5 節([連結]({URL}#S5))
+    需要:單元 1。
+"""
+
+
+def test_parse_guide_reads_a_guide_written_in_chinese():
+    guide = build_reader.parse_guide(GUIDE_ZH)
+    assert guide["prereqs"] == [
+        {"concept": "Dominant strategy(優勢策略)", "neededFor": "單元 1", "first": True},
+        {"concept": "Proof-of-work", "neededFor": "單元 1", "first": False},
+    ]
+    first, second = guide["units"]
+    assert first == {"n": 1, "title": "模型", "anchor": "S2", "needs": "無。", "question": "誰決定?", "provisional": False}
+    assert second["provisional"] is True and second["anchor"] == "S5" and second["needs"] == "單元 1。"

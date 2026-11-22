@@ -103,11 +103,11 @@ def load_library(root: Path) -> list[Card]:
 
 
 def claim_lines(body: str) -> list[str]:
-    """Bullets under the '## Claims' heading, up to the next heading."""
+    """Bullets under the claims heading ('## 主張' or '## Claims'), up to the next heading."""
     lines, inside = [], False
     for line in body.splitlines():
         if line.startswith("## "):
-            inside = line.strip() == "## Claims"
+            inside = line.strip() in ("## 主張", "## Claims")
         elif inside and line.startswith("- "):
             lines.append(line)
     return lines
