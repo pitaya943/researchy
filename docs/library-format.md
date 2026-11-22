@@ -72,6 +72,23 @@ A link may point at a concept with no card yet. This is allowed: such targets
 are listed in `INDEX.md` under "Frontier", the things you know exist but have
 not learned.
 
+## Paper cards
+
+A paper read with `/read` gets a card too, in the same directory and format,
+with `kind: paper` and an id such as `roughgarden-2021-tfm`. It adds two
+sections that later feed gap-finding:
+
+```markdown
+## Assumptions
+- [source-exists: self] Miners are myopic: they maximise revenue from the current block only. (section 3.2)
+
+## Open problems (as the authors state them)
+- [source-exists: self] ... (section 6)
+```
+
+Each line gives the location in the paper. `self` is the paper itself, declared
+under `sources` like any other source.
+
 ## Commands
 
 ```bash
