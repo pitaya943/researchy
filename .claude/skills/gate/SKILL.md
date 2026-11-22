@@ -34,6 +34,14 @@ a problem at the gate where it is cheap, not three gates later.
    Do not argue further; do mention it again if a later problem traces back
    to it.
 
+## Declined suggestions
+
+`thesis/declined.md` lists suggestions the learner has considered and turned
+down, each with their reason. Read it before giving the result. A required
+condition in `docs/gates.md` is still reported as not met, since a gate does
+not bend, but say that it was declined before and do not argue it again.
+Anything beyond the required conditions that appears in the list is left out.
+
 ## Rules
 
 - **Be strict and specific.** "The model section needs work" is useless. "The

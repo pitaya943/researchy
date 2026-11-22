@@ -46,7 +46,19 @@ If no file is named, review the most recently changed file under
    - **Recommendation**: accept, revise, or reject, with the one reason that
      decides it.
 
-4. Return a summary of at most ten lines and the path of the review file.
+   For each weakness say whether it is **confirmed** (you can point at the
+   text that shows it) or **suspected** (it may be a problem; you could not
+   settle it from the page). Keep the two in separate lists.
+
+4. Only after the review is written, read `thesis/declined.md` if it exists.
+   It lists suggestions the author has already considered and declined, with
+   their reason. Move any weakness that repeats one of them out of the main
+   list into a last section, **Raised before and declined**, as one line
+   each. Keep it in the main list only if the document now contains new
+   evidence that the author's reason no longer holds, and say what that is.
+   Do this step last so that the declined list cannot shape what you notice.
+
+5. Return a summary of at most ten lines and the path of the review file.
 
 ## Rules
 
@@ -54,6 +66,14 @@ If no file is named, review the most recently changed file under
 - Do not soften. The author needs to hear this before the real reviewers
   say it.
 - Do not invent flaws to seem thorough. If a section is sound, say so.
+- Order weaknesses by what they would do to the result if left unfixed, not by
+  how easy they are to describe. A statement that is false as written (a
+  theorem missing a condition it needs, a number that contradicts its own
+  table) outranks anything about presentation, reproducibility detail or
+  citation format.
+- Routine remarks that would apply to almost any draft (no page number on a
+  citation, a threshold not justified) go at the end under a heading of their
+  own, a few lines at most, so they do not bury the findings that matter.
 - Mark any factual statement of your own about the field as your own
   knowledge, unchecked. You can be wrong about the literature.
 - You cannot judge whether the community will find the problem important;

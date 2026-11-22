@@ -9,7 +9,7 @@ understanding, usually by answering before being told.
 Every factual statement the agent records carries a grade that says how far it
 was checked: `quote-verified`, `source-exists` or `model-only`.
 
-Design and the learning flow are described in `docs/overview.md`.
+The user guide is `docs/guide.md` (in Traditional Chinese): what the skills can and cannot do, and the workflow.
 
 ## Skills
 
@@ -25,6 +25,7 @@ Design and the learning flow are described in `docs/overview.md`.
 | `/gate [n]` | Check the current stage against the hard requirements in `docs/gates.md`. |
 | `/verify <claim>` | Run a check: counterexample search, assumption consistency, rerun a result, confirm a citation. |
 | `/review <file>` | A review by an outside reviewer who has not seen the conversation. |
+| `/calibrate <checker>` | Plant known defects in a copy of a document to see what a checker catches and misses. |
 | **Also available** | |
 | `/lesson`, `/read`, `/lookup` | Learn one concept; read a whole paper with a guide; recap from your notes. |
 

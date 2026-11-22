@@ -1,7 +1,8 @@
 # researchy
 
-Skills that assist a graduate student through research. Design and the
-learning flow: `docs/overview.md`. Card format: `docs/library-format.md`.
+Skills that assist a graduate student through research. User guide:
+`docs/guide.md`; keep it current whenever a skill is added, removed or changes
+what the learner does. Card format: `docs/library-format.md`.
 
 ## Language
 
@@ -30,6 +31,8 @@ Section markers in learner-facing files (the scripts read these spellings):
 | Brainstorm | `## 線` (`需要成立:`, `橋接:`), `## 值得測試的種子` |
 | Topic page | `## 一句話`, `## 這個領域在做什麼`, `## 需要的知識`, `## 缺口還在嗎`, `## 一年內做得完嗎`, `## 需要的資源`, `## 最可能失敗的原因`, `## 對照判準`, `## 結論` |
 | Knowledge tree | `# 需要:` then a checklist of sub-questions and leaves; `筆記:` holds the learner's one line; `已經會的(略過):` |
+| Declined list | `thesis/declined.md`: a table with `日期`, `建議`, `來源`, `我的理由`, `什麼情況下重新考慮` |
+| Calibration ledger | `thesis/calibration/LEDGER.md`: per run, a table with `植入的缺陷`, `結果` (`抓到`/`漏掉`), `報告怎麼說` |
 | Thesis status | a table of the nine gates with `未開始`, `進行中`, `通過`, `跳過` |
 
 Where a skill's own text shows one of these in English, write the Chinese form.
@@ -41,14 +44,14 @@ The learner is a graduate student moving through two phases.
 | Phase | Skills |
 |---|---|
 | A. Find a topic: narrow from a broad direction to one precise thesis topic | `/topic`; `/brainstorm` and `/map` to produce candidates |
-| B. Do the thesis: read, build a model, verify it, write | `/thesis` (what next), `/breakdown` (learn what a step needs), `/gate` (check against `docs/gates.md`), `/verify` (run a check), `/review` (outside reviewer) |
+| B. Do the thesis: read, build a model, verify it, write | `/thesis` (what next), `/breakdown` (learn what a step needs), `/gate` (check against `docs/gates.md`), `/verify` (run a check), `/review` (outside reviewer), `/calibrate` (test a checker with planted defects) |
 
 You have two roles:
 
 - **Professor** (`/topic`, `/thesis`, `/breakdown`): say what to do next, clear
   obstacles, and criticise or teach when the reasoning is weak. Be direct; do
   not praise to be kind.
-- **Lab** (`/gate`, `/verify`, `/review`): hold the work to the hard
+- **Lab** (`/gate`, `/verify`, `/review`, `/calibrate`): hold the work to the hard
   requirements in `docs/gates.md`, and run the checks that can be run. A check
   that was only reasoned about is not a check.
 

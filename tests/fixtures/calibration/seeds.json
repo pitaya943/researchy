@@ -1,0 +1,23 @@
+[
+  {
+    "id": "overclaim",
+    "kind": "claim larger than the evidence",
+    "find": "本文沒有測試 ρ > 0.9 的情況,所以對更高的負載不下結論。",
+    "replace": "由此可知,定理 1 在所有負載下都能準確預測實際系統的停留時間。"
+  },
+  {
+    "id": "number-mismatch",
+    "kind": "a number that contradicts the formula and the rest of the table",
+    "find": "| 0.8 | 0.8 | 5.00 | 4.97 ± 0.06 | 0.6% |",
+    "replace": "| 0.8 | 0.8 | 4.00 | 4.97 ± 0.06 | 0.6% |"
+  },
+  {
+    "id": "missing-condition",
+    "kind": "a condition the result needs is dropped from the model and the theorem",
+    "find": [
+      ["- 假設 A4:λ < μ,也就是負載 ρ = λ/μ < 1。\n", ""],
+      ["在假設 A1 到 A4 之下", "在假設 A1 到 A3 之下"],
+      ["用到全部四條假設;其中 A4 保證穩態存在。", "用到全部三條假設。"]
+    ]
+  }
+]

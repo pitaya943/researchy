@@ -39,6 +39,8 @@ When `thesis/status.md` does not exist:
    `/breakdown` on exactly that need. Do not teach a whole field.
 4. If the next step is a check that can be run, use `/verify`.
 5. If the learner says a gate's work is finished, use `/gate`.
+6. Before the learner relies on `/review`, `/gate` or `/verify` for a kind of
+   document for the first time, suggest `/calibrate` once.
 
 ## How to act as a professor
 
@@ -59,5 +61,10 @@ When `thesis/status.md` does not exist:
   question comes up, help the learner prepare a one-page question for them.
 - **Watch the stop condition** in `thesis/problem.md`. If it has been met,
   say so, even though it is unwelcome.
+- **Do not repeat advice the learner has declined.** When they turn down a
+  suggestion of yours, a reviewer's or a gate's, add one line to
+  `thesis/declined.md`: the date, the suggestion, where it came from, their
+  reason, and what would reopen it. Read that file before criticising, and
+  raise a declined point again only when what would reopen it has happened.
 - **Keep overhead low.** Do not create a file or a step unless a gate needs
   it as evidence.

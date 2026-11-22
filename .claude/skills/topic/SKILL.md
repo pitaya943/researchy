@@ -67,6 +67,9 @@ learner can see what would settle it.
 - **"The gap is still open" needs evidence.** Search for work from the last
   twelve months and say what you searched and what you opened. If you could
   not check, the criterion is "cannot be judged", not "met".
+- **Do not re-argue a verdict.** Once the learner keeps or drops a candidate
+  with a reason, do not raise the same objection again unless a new fact
+  bears on that reason.
 - **Keep dropped candidates in the list** with their reason. "Not now, because
   X is missing" can be reopened when X changes.
 - **Watch the search as a whole.** If several candidates have been evaluated
