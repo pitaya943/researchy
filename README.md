@@ -9,6 +9,8 @@ understanding, usually by answering before being told.
 Every factual statement the agent records carries a grade that says how far it
 was checked: `quote-verified`, `source-exists` or `model-only`.
 
+Design and the learning flow are described in `docs/overview.md`.
+
 ## Skills
 
 | Skill | Use |
@@ -38,5 +40,6 @@ python3 scripts/library.py check     # validate cards
 python3 scripts/library.py index     # rebuild INDEX.md
 python3 scripts/arxiv.py meta <id>   # confirm a paper exists; print its abstract
 python3 scripts/arxiv.py get <id>    # download a paper to papers/<id>/
+python3 scripts/build_reader.py <id> # build the highlight-to-explain page for a paper
 python3 -m pytest                    # run the tests
 ```

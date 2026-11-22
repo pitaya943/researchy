@@ -48,6 +48,22 @@ Write `guides/<id>.md`. Follow the layout of an existing guide in `guides/`.
 The guide points at the paper. It never restates the paper's content, and it
 never contains passages copied from it.
 
+### The reader page (optional)
+
+`python3 scripts/build_reader.py <id>` joins the paper and its guide into
+`papers/<id>/reader.html`: the paper's text with a card before each unit, and
+an Explain button on any selected passage. Publish it as a private artifact
+with capabilities `{"sample": {}, "db": {}}`.
+
+The page contains the paper's full text. Check the paper's licence first. If
+it is not a Creative Commons licence, tell the learner that the page is a
+private reading copy and must never be shared, and publish only if they agree.
+
+What the learner asks on the page is saved in the artifact's `marks`
+collection, and their answers to the unit questions in `guesses`. Read both
+back with `ArtifactData` at the start of a reading session: the marks are the
+places they did not follow.
+
 ## 3. Read with the learner
 
 The learner reads one unit at a time in the original. For each unit: they
