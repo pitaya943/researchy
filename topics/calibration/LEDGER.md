@@ -2,7 +2,7 @@
 
 每一筆記錄一次 `/calibrate`:在文件的副本裡植入已知的缺陷,看檢查器抓到哪些。
 
-## 2026-11-22 · review · tests/fixtures/calibration/clean.md
+## 2026-11-22 · review · researchy-calibrate 的 fixture/clean.md
 
 四個副本(一個對照組、三個各植入一個缺陷),各由一個沒看過對話、也不知道有植入的子 agent 依 `/review` 的指示審查。
 

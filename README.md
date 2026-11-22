@@ -1,65 +1,82 @@
 # researchy
 
-A set of Claude Code skills that assist a graduate student through research:
-learning a field, reading papers, finding and testing a problem, and doing the
-work. It assists; it does not do the thinking. The agent takes the labour
-(searching, fetching, ordering, checking, recording) and the learner does the
-understanding, usually by answering before being told.
+A toolkit of Claude Code skills that assists a graduate student through a
+thesis: finding a topic, then reading, modelling, verifying and writing. It
+assists; it does not do the thinking. The agent takes the labour (searching,
+fetching, checking, recording) and the student writes the substance.
 
 Every factual statement the agent records carries a grade that says how far it
 was checked: `quote-verified`, `source-exists` or `model-only`.
 
-The user guide is `docs/guide.md` (in Traditional Chinese): what the skills can and cannot do, and the workflow.
+The user guide is `plugin/skills/researchy/GUIDE.md` (in Traditional Chinese).
 
-## Skills
+## Install
 
-| Skill | Use |
-|---|---|
-| **Phase A: find a topic** | |
-| `/topic [candidate]` | Evaluate candidate topics one page at a time; keep or drop. |
-| `/brainstorm <idea>` | Explore far-fetched ideas and links between distant fields, without judging them yet. |
-| `/map <topic>` | Break a broad area into branches. |
-| **Phase B: do the thesis** | |
-| `/thesis` | Where the work stands and the one next step. |
-| `/breakdown <need>` | Split what a step requires you to understand into small pieces; read one at a time. |
-| `/gate [n]` | Check the current stage against the hard requirements in `docs/gates.md`. |
-| `/verify <claim>` | Run a check: counterexample search, assumption consistency, rerun a result, confirm a citation. |
-| `/review <file>` | A review by an outside reviewer who has not seen the conversation. |
-| `/calibrate <checker>` | Plant known defects in a copy of a document to see what a checker catches and misses. |
-| **Also available** | |
-| `/lesson`, `/read`, `/lookup` | Learn one concept; read a whole paper with a guide; recap from your notes. |
+The toolkit is installed into `~/.claude/skills/` and used from your own
+research project. Your topics, thesis and notes stay in your repository.
 
-## Layout
+```bash
+git clone https://github.com/pitaya943/researchy.git
+```
 
-| Path | Holds |
-|---|---|
-| `library/` | Concept and paper cards (`docs/library-format.md`). `INDEX.md` is generated. |
-| `lessons/` | One file per lesson: the guess, the explanation, what was parked. |
-| `maps/` | Topic maps. |
-| `thesis/` | The thesis: status of the nine gates, problem, model, claims, checks, results, draft, reviews. |
-| `topics/` | The topic search: criteria, the candidate list, one page per evaluated candidate. |
-| `guides/` | Reading guides for papers. |
-| `ideas/` | Notes from brainstorms. Speculation unless marked otherwise. |
-| `papers/` | Downloaded papers. Not in git: most may be read but not redistributed. |
-| `PARKED.md` | Questions set aside to learn later. |
-
-## Setup
+```bash
+mkdir -p ~/.claude/skills && cp -r researchy/plugin/skills/. ~/.claude/skills/
+```
 
 ```bash
 pip install pyyaml pytest sympy z3-solver
 ```
 
-`pyyaml` and `pytest` are for the scripts and tests; `sympy` and `z3-solver`
-are what `/verify` uses for symbolic checks and assumption consistency. Paper
-search uses the Consensus and OpenAlex connectors and the arXiv API.
+Paper search uses the Consensus and OpenAlex connectors and the arXiv API.
+Without the connectors only arXiv is searched.
 
-## Scripts
+Then, in your project, run `/researchy`.
+
+### Claude Code on the web
+
+Use this as the environment's setup script, and allow the hosts `github.com`,
+`arxiv.org` and `export.arxiv.org`:
 
 ```bash
-python3 scripts/library.py check     # validate cards
-python3 scripts/library.py index     # rebuild INDEX.md
-python3 scripts/arxiv.py meta <id>   # confirm a paper exists; print its abstract
-python3 scripts/arxiv.py get <id>    # download a paper to papers/<id>/
-python3 scripts/build_reader.py <id> # build the highlight-to-explain page for a paper
-python3 -m pytest                    # run the tests
+#!/bin/bash
+# Python packages used by the researchy scripts and checks.
+pip install --quiet pyyaml pytest sympy z3-solver \
+  || echo "researchy: Python packages were not installed"
+# Install the researchy skills where Claude Code reads user-level skills.
+rm -rf /tmp/researchy-src
+git clone -q --depth 1 https://github.com/pitaya943/researchy.git /tmp/researchy-src \
+  && mkdir -p "${HOME:-/root}/.claude/skills" \
+  && cp -r /tmp/researchy-src/plugin/skills/. "${HOME:-/root}/.claude/skills/" \
+  || echo "researchy skills were not installed"
+```
+
+## Skills
+
+| Skill | Use |
+|---|---|
+| `/researchy` | Where am I, and which skill do I use next. |
+| **Phase A: find a topic** | |
+| `/researchy-topic [candidate]` | Evaluate candidate topics one page at a time; keep or drop. |
+| `/researchy-brainstorm <idea>` | Explore far-fetched ideas and links between distant fields, without judging them yet. |
+| `/researchy-map <field>` | Break a broad area into branches. |
+| **Phase B: do the thesis** | |
+| `/researchy-thesis` | Where the work stands and the one next step. |
+| `/researchy-breakdown <need>` | Split what a step requires you to understand into small pieces; read one at a time. |
+| `/researchy-gate [n]` | Check the current stage against the nine gates. |
+| `/researchy-verify <claim>` | Run a check: counterexample search, assumption consistency, rerun a result, confirm a citation. |
+| `/researchy-review <file>` | A review by an outside reviewer who has not seen the conversation. |
+| `/researchy-calibrate <checker>` | Plant known defects in a copy of a document to see what a checker catches and misses. |
+| **Also available** | |
+| `/researchy-lesson`, `/researchy-read`, `/researchy-lookup` | Learn one concept; read a whole paper with a guide; recap from your notes. |
+
+## Repository layout
+
+| Path | Holds |
+|---|---|
+| `plugin/skills/researchy/` | The entry skill and what the skills share: conventions, the guide, the gate specification, templates, scripts |
+| `plugin/skills/researchy-*/` | One skill each |
+| `tests/` | Tests for the scripts and the plugin layout |
+
+```bash
+python3 -m pytest
 ```
