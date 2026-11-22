@@ -258,7 +258,16 @@ flowchart TD
 | `PARKED.md` | 擱置的問題 |
 | `papers/` | 下載的論文(不進 git) |
 
-## 11. 另外可用的 skill
+## 11. 雲端環境
+
+在 Claude Code 雲端使用這個專案時,選名為 `researchy` 的環境。它包含:
+
+- **網路**:可連 `github.com`、`arxiv.org`、`export.arxiv.org`,以及套件庫與已接上的連接器(Consensus、OpenAlex)。
+- **啟動腳本**:安裝 `pyyaml`、`pytest`、`sympy`、`z3-solver`。前兩個是專案腳本與測試用的;後兩個是 `/verify` 做符號運算與檢查假設是否矛盾用的。
+
+Consensus 和 OpenAlex 是你帳號上的連接器,不屬於環境設定。新的 session 要能使用它們,連接器必須維持接上的狀態。
+
+## 12. 另外可用的 skill
 
 這三個不在主線上,需要時可以用:
 

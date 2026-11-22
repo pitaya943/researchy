@@ -43,6 +43,16 @@ The user guide is `docs/guide.md` (in Traditional Chinese): what the skills can 
 | `papers/` | Downloaded papers. Not in git: most may be read but not redistributed. |
 | `PARKED.md` | Questions set aside to learn later. |
 
+## Setup
+
+```bash
+pip install pyyaml pytest sympy z3-solver
+```
+
+`pyyaml` and `pytest` are for the scripts and tests; `sympy` and `z3-solver`
+are what `/verify` uses for symbolic checks and assumption consistency. Paper
+search uses the Consensus and OpenAlex connectors and the arXiv API.
+
 ## Scripts
 
 ```bash
