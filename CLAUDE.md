@@ -50,8 +50,10 @@ single source does all three.
 
 Grades: a Consensus record or an arXiv abstract makes a statement
 `source-exists`, and say that only the abstract was read. `quote-verified`
-needs the sentence found in the full text. Google Scholar has not been tried
-from this environment; do not claim to have searched it.
+needs the sentence found in the full text. Google Scholar cannot be
+reached from this environment (tested 2026-11-22: refused by the network
+allowlist), and it offers no official API for automated use; do not claim to
+have searched it.
 
 When you report Consensus results to the learner, cite them with the numbered
 links the tool returned, and repeat any notice the tool asks you to repeat.
