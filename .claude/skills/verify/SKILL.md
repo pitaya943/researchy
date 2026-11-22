@@ -39,7 +39,9 @@ During topic search, use `topics/checks/` instead.
 3. Rerun with other seeds if only one was used.
 
 **A citation** ("paper X shows Y")
-1. Open the paper (`scripts/arxiv.py get`).
+1. Open the paper (`scripts/arxiv.py get`). If it is not on arXiv, find its
+   record through Consensus; then only the abstract can be checked, and the
+   grade cannot go above `source-exists`.
 2. Find the passage. If it supports the statement, quote the sentence and its
    location, and the grade becomes `quote-verified`. If the paper exists but
    you cannot find support, the grade stays `source-exists` and you say that

@@ -33,8 +33,9 @@ interest is a legitimate reason and costs two minutes.
 
 ## With a candidate: evaluate it
 
-1. **Do the legwork first.** Open the two or three papers that define the
-   candidate (`scripts/arxiv.py meta` and `get`). Find out what the field does,
+1. **Do the legwork first.** Find and open the two or three papers that
+   define the candidate, using the sources in `CLAUDE.md` under "Finding and
+   checking papers" (Consensus for published work, arXiv for the newest). Find out what the field does,
    what the open question is, and whether it is still open. Do not ask the
    learner to read anything yet.
 2. **Write the page** `topics/<slug>.md` in the format below. Keep it to one
@@ -65,7 +66,8 @@ learner can see what would settle it.
   "is this enough for a thesis" are estimates; say so, and point out when a
   question needs the learner's real advisor.
 - **"The gap is still open" needs evidence.** Search for work from the last
-  twelve months and say what you searched and what you opened. If you could
+  twelve months in both Consensus and arXiv, and say what you searched and
+  what you opened. If you could
   not check, the criterion is "cannot be judged", not "met".
 - **Do not re-argue a verdict.** Once the learner keeps or drops a candidate
   with a reason, do not raise the same objection again unless a new fact

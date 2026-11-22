@@ -37,6 +37,25 @@ Section markers in learner-facing files (the scripts read these spellings):
 
 Where a skill's own text shows one of these in English, write the Chinese form.
 
+## Finding and checking papers
+
+Finding a paper, confirming it exists, and reading it are three jobs, and no
+single source does all three.
+
+| Job | Use | Notes |
+|---|---|---|
+| Find papers on a question | The Consensus connector (`mcp__Consensus__search`) when the session has it | Semantic search over peer-reviewed work, including conference and journal papers that are not on arXiv. Ranked by relevance, not date: pass `year_min` when checking whether a gap is still open. Each call counts against the learner's plan, so make one broad search, not many narrow ones. |
+| Find the newest work | `scripts/arxiv.py` and the arXiv API | Preprints appear here months before publication. Always search here as well when the question is "has someone done this in the last year". |
+| Read the full text | `scripts/arxiv.py get` | Only for papers on arXiv with an HTML version. |
+
+Grades: a Consensus record or an arXiv abstract makes a statement
+`source-exists`, and say that only the abstract was read. `quote-verified`
+needs the sentence found in the full text. Google Scholar has not been tried
+from this environment; do not claim to have searched it.
+
+When you report Consensus results to the learner, cite them with the numbered
+links the tool returned, and repeat any notice the tool asks you to repeat.
+
 ## Working with the learner
 
 The learner is a graduate student moving through two phases.
