@@ -15,6 +15,7 @@ Design and the learning flow are described in `docs/overview.md`.
 
 | Skill | Use |
 |---|---|
+| `/topic [candidate]` | Narrow to one thesis topic: evaluate candidates one page at a time, keep or drop. |
 | `/map <topic>` | Break a broad topic into branches small enough for one lesson. |
 | `/lesson <topic>` | Learn one concept; ends with a card in your own words. Parks tangents. |
 | `/read <arXiv ID>` | Read a paper with a guide ordered by what depends on what. |
@@ -28,6 +29,7 @@ Design and the learning flow are described in `docs/overview.md`.
 | `library/` | Concept and paper cards (`docs/library-format.md`). `INDEX.md` is generated. |
 | `lessons/` | One file per lesson: the guess, the explanation, what was parked. |
 | `maps/` | Topic maps. |
+| `topics/` | The topic search: criteria, the candidate list, one page per evaluated candidate. |
 | `guides/` | Reading guides for papers. |
 | `ideas/` | Notes from brainstorms. Speculation unless marked otherwise. |
 | `papers/` | Downloaded papers. Not in git: most may be read but not redistributed. |
