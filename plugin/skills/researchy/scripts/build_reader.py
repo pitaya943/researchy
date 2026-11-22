@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the highlight-to-explain reading page for one paper.
 
-    build_reader.py ID      # e.g. 2106.01340v3
+    build_reader.py ID      # e.g. 1603.09320v4
 
 Joins papers/<ID>/paper.html (from arxiv.py get) with guides/<ID without
 version>.md and writes papers/<ID>/reader.html. The output holds the paper's

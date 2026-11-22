@@ -9,13 +9,13 @@ import arxiv  # noqa: E402
 ATOM = """<?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <entry>
-    <id>http://arxiv.org/abs/2106.01340v3</id>
-    <published>2021-06-02T17:48:32Z</published>
-    <title>Transaction Fee
-      Mechanism Design</title>
-    <summary>  Demand for blockchains
-      is larger than supply. </summary>
-    <author><name>Tim Roughgarden</name></author>
+    <id>http://arxiv.org/abs/1603.09320v4</id>
+    <published>2016-03-30T17:48:32Z</published>
+    <title>Efficient and robust approximate
+      nearest neighbor search</title>
+    <summary>  We present a new approach
+      for the K-nearest neighbor search. </summary>
+    <author><name>Yu. A. Malkov</name></author>
   </entry>
   <entry>
     <id>http://arxiv.org/api/errors#incorrect_id_format_for_9999</id>
@@ -26,11 +26,11 @@ ATOM = """<?xml version="1.0"?>
 
 def test_parse_meta_reads_fields_and_squashes_whitespace():
     assert arxiv.parse_meta(ATOM) == [{
-        "id": "2106.01340v3",
-        "title": "Transaction Fee Mechanism Design",
-        "authors": ["Tim Roughgarden"],
-        "year": "2021",
-        "abstract": "Demand for blockchains is larger than supply.",
+        "id": "1603.09320v4",
+        "title": "Efficient and robust approximate nearest neighbor search",
+        "authors": ["Yu. A. Malkov"],
+        "year": "2016",
+        "abstract": "We present a new approach for the K-nearest neighbor search.",
     }]
 
 

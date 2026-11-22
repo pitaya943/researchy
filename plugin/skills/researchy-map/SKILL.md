@@ -67,21 +67,21 @@ learned, so it never creates concept cards.
 
 ```markdown
 ---
-topic: Transaction fee mechanism design
+topic: Approximate nearest neighbour search
 purpose: "Orientation before choosing what to read first"
 date: 2026-11-21
 sources:
-  roughgarden-2021: {ref: "arXiv:2106.01340", title: "Transaction Fee Mechanism Design"}
+  malkov-2016: {ref: "arXiv:1603.09320", title: "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs"}
 ---
 ## 方向
-- [ ] **誘因性質(incentive properties)** [source-exists: roughgarden-2021]
-  問題:一個手續費機制能防住哪些參與者?
-  需要:基本的拍賣理論。
+- [ ] **圖索引(graph-based indexes)** [source-exists: malkov-2016]
+  問題:為什麼在一張圖上貪婪地走,就能很快找到近鄰?
+  需要:基本的圖論。
   Lesson:(尚無)
 
 ## 建議順序
 ...
 
 ## 未開啟的線索
-- arXiv:2111.03151 "Foundations of Transaction Fee Mechanism Design" (branch: Incentive properties)
+- arXiv:1702.08734 "Billion-scale similarity search with GPUs" (branch: 圖索引)
 ```
