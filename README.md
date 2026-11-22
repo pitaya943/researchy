@@ -17,6 +17,7 @@ was checked: `quote-verified`, `source-exists` or `model-only`.
 | `/lesson <topic>` | Learn one concept; ends with a card in your own words. Parks tangents. |
 | `/read <arXiv ID>` | Read a paper with a guide ordered by what depends on what. |
 | `/lookup <term>` | Recap something you learned before, from your own notes. |
+| `/brainstorm <idea>` | Explore far-fetched ideas and links between distant fields, without judging them yet. |
 
 ## Layout
 
@@ -26,6 +27,7 @@ was checked: `quote-verified`, `source-exists` or `model-only`.
 | `lessons/` | One file per lesson: the guess, the explanation, what was parked. |
 | `maps/` | Topic maps. |
 | `guides/` | Reading guides for papers. |
+| `ideas/` | Notes from brainstorms. Speculation unless marked otherwise. |
 | `papers/` | Downloaded papers. Not in git: most may be read but not redistributed. |
 | `PARKED.md` | Questions set aside to learn later. |
 
